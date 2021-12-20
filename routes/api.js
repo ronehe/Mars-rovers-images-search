@@ -1,7 +1,7 @@
 var express = require('express');
 const Cookies = require('cookies')
 var router = express.Router();
-let mail = []
+let mail = ['12@gmail.com']
 
 /* GET home page. */
 router.get('/resources/:id', function (req, res, next) {
@@ -9,10 +9,9 @@ let currentEmail=req.params.id
     if (mail.find(element => {
         return element === currentEmail
     })) {
-        // res.json({x: true})
-        res.render('index',{title:"leon"})
+        res.json({x: true})
     } else {
-        res.render('index',{title:"leon"})
+        res.json({x: false})
     }
 
 });
