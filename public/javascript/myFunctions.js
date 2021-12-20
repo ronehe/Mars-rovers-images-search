@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded",()=>{
-
+/***
     document.querySelector("form").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -11,10 +11,12 @@ if(response.status>=200&&response.status<300)
     return response.json()
 else throw response.status.toString() + ' ' + response.statusText + ' ' + response.url
         }).then(emailNotFound => {
-         if(emailNotFound)
+         if(emailNotFound) {}
 
         }).catch();
 
     })
     }
 )
+ */
+})
