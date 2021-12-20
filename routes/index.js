@@ -7,11 +7,16 @@ router.get('/register', function(req, res, next) {
   res.render('register', {
     typeName: 'text',
     typeMail: 'email',
-      typePassword: 'hidden'});
+      typePassword: 'hidden',
+      first:"submit",
+      second:"hidden"}
+  );
 
 });
 
 router.post('/register', function(req, res, next) {
+
+  req.session.form=req.body
 
   let keys = ['keyboard cat']
   const cookies = new Cookies(req, res, { keys: keys })
@@ -29,9 +34,13 @@ router.post('/register', function(req, res, next) {
 
 
   res.render('register', {
+
     typeName: 'hidden',
     typeMail: 'hidden',
-    typePassword: 'password'});
+    typePassword: 'password',
+    first:"hidden",
+    second:"submit"
+    });
 
 });
 module.exports = router;

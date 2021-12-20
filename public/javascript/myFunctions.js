@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(!data.x) {
                     document.querySelector('form').submit();
                 }
+                else{
+                    console.log("email already exists")
+
+                }
             })
         .catch(()=>{console.log("error")});
 
