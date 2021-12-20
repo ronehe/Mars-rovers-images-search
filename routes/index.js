@@ -17,15 +17,15 @@ router.post('/register', function(req, res, next) {
   const cookies = new Cookies(req, res, { keys: keys })
 
   // Get the cookie
-  const emailExists = cookies.get('emailExists', { signed: true })
-
-  if (!emailExists) {
+  const cookieExists = cookies.get('cookieExists', { signed: true })
+/**
+ *if cookie doesnt exists create a new one..
+ */
+  if (!cookieExists) {
     // Set the cookie with expiration time 10 seconds (for testing)
-    cookies.set('emailExists', new Date().toISOString(), { signed: true, maxAge: 10*1000 });
-    res.render('firstvisit', {title: 'Firt visit with cookie', firstvisit: true});
+    cookies.set('cookieExists', new Date().toISOString(), { signed: true, maxAge: 10*1000 });
   }
-  else
-    res.render('firstvisit', { title: 'Firt visit with cookie', firstvisit: false });
+
 
 
   res.render('register', {
