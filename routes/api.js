@@ -1,12 +1,12 @@
 var express = require('express');
 const Cookies = require('cookies')
+const emails = require('../models/ds')
 var router = express.Router();
-let mail = []
 
 /* GET home page. */
 router.get('/resources/:id', function (req, res, next) {
 let currentEmail=req.params.id
-    if (mail.find(element => {
+    if (emails.find(element => {
         return element === currentEmail
     })) {
         res.json({x: true})

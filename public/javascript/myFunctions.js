@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let theurl = "/api/resources";
 
-        fetch(`${theurl}/${this.querySelector('[type=email]')}`)
+        fetch(`${theurl}/${this.querySelector('[type=email]').value}`)
             .then((res) => res.json())
             .then((data) => {
                 if(!data.x) {
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 }
             })
-        .catch(()=>{console.log("error")});
+        .catch((e)=>{console.log("error", e)});
 
     })
 })
