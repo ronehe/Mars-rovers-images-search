@@ -9,8 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let theurl = "/api/resources";
         let nameElem = this.querySelectorAll('input')[0]
         let lastNameElem = this.querySelectorAll('input')[1]
-        let emailElem = this.querySelectorAll('input')[2]
-
+        let emailElem=this.querySelectorAll('input')[2]
 
         if (validateForm(nameElem, lastNameElem,emailElem))
         fetch(`${theurl}/${this.querySelector('[type=email]').value}`)
@@ -37,40 +36,33 @@ const validatorModule = (() => {
     let onlyAlphabet = (name) => {
         return !/[^a-zA-Z]/.test(name)
     }
-    let notEmpty=(input)=>{
-        return (!input)
-    }
+
 
     let validateName =(name) => {
-        let v =  onlyAlphabet(name)&&notEmpty(name);
-
+        let v =  onlyAlphabet(name)&&(name);
         return {
             isValid: v,
-            message: 'The input must consist only letters'
-
+            message: 'The input must consist letters and only letters'
         }
     }
-    let validateEmpty =(input) => {
-        let v =   notEmpty(name);
+    let validateEmail =(email) => {
+        let v = (email);
         return {
             isValid: v,
-            message: 'The input cant be empty'
-
+            message: 'mail cant be empty '
         }
     }
 
     return {
         isValidName: validateName,
-        isEmpty:validateEmpty
+        isValidEmail:validateEmail
     }
 })();
 const validateForm = (name,lastName,email) => {
-
-    let  v1 = validateInput(name, validatorModule.isValidName)
+    let v1 = validateInput(name, validatorModule.isValidName)
     let v2 = validateInput(lastName, validatorModule.isValidName)
-    let v3 = validateInput(email, validatorModule.isEmpty())
-
-    return v1 && v2&&v3 ;
+        let v3=validateInput(email,validatorModule.isValidEmail)
+    return v1 && v2 && v3 ;
 }
 
 const validateInput = (inputElement, validateFunc) => {
