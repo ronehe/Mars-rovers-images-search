@@ -1,4 +1,4 @@
-let validatorModule=require('./validatorModule')
+let validatorModule=require('./validatorModule.js')
 document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector("form").addEventListener("submit", function (e) {

@@ -3,6 +3,14 @@ const Cookies = require('cookies')
 const emails = require('../models/ds')
 var router = express.Router();
 
+router.get('/', function (req, res, next){
+  res.redirect('/login')
+})
+
+router.get('/login', function(req, res, next){
+  res.send('<h1>this is login page</h1><a href="/register">register page</a>')
+})
+
 /* GET home page. */
 router.get('/register', function(req, res, next) {
   console.log(emails)

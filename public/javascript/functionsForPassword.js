@@ -1,4 +1,4 @@
- let validatorMod = require("./validatorModule")
+const validatorMod = require("./validatorModule")
 document.querySelector("form").addEventListener("submit", function (e) {
 
     let password = this.querySelectorAll('input')[3]
