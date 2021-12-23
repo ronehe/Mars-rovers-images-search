@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!validatorModul.validateForm({
             elem: password, elemFunc: ((password) => {
-                return validatorModul.isPasswordsMatch(password.value, password2.value)
+                return validatorModul.isPasswordsMatch(password, password2.value)
             })
         }))
             e.preventDefault();
