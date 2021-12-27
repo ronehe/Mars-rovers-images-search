@@ -8,7 +8,7 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/login', function(req, res, next){
-  res.send('<h1>this is login page</h1><a href="/register">register page</a>')
+  res.render('login');
 })
 
 /* GET home page. */
