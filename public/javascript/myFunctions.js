@@ -1,18 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    let forms = document.querySelectorAll("form") //get forms of 1st and 2nd page
+    let firstForm, secondForm;
+    [firstForm, secondForm] = document.querySelectorAll("form") //get forms of 1st and 2nd page
 
     //event listener for 1st form of names + email page
-    forms[0].addEventListener("submit", function (e) {
+    firstForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        let errMsg = document.getElementById("emailErrorMsg");
-        if (errMsg.firstChild)
-            errMsg.removeChild(errMsg.firstChild)
-
+        document.getElementById("emailErrorMsg").innerHTML = ''
         let theurl = "/api/resources";
-        let nameElem = this.querySelectorAll('input')[0]
-        let lastNameElem = this.querySelectorAll('input')[1]
-        let emailElem = this.querySelectorAll('input')[2]
+        let nameElem, lastNameElem, emailElem;
+        [nameElem, lastNameElem, emailElem] = this.querySelectorAll('input')
 
         if (validatorModule.validateForm(
             {elem: nameElem, elemFunc: validatorModule.isValidName},
@@ -22,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
             fetch(`${theurl}/${this.querySelector('[type=email]').value}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    if (!data.x) {
-                        document.querySelector('form').submit();
+                    if (!data.mailExists) {
+                        this.submit();
                     } else {
                         let findError = `<div class="card p-3 alert-warning "><h5 class="text-secondary"><b>
                                      <strong>Oh No !</strong> the email is already used :( </b></h5></div>`
@@ -37,10 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     //event listener for 2nd form - passwords
-    forms[1].addEventListener("submit", function (e) {
-        let pswds = this.querySelectorAll('input')
-        let password = pswds[0]
-        let password2 = pswds[1]
+    secondForm.addEventListener("submit", function (e) {
+        let [password, password2] = this.querySelectorAll('input')
 
         if (!validatorModule.validateForm({
             elem: password, elemFunc: ((password) => {
@@ -96,7 +91,7 @@ const validatorModule = (() => {
     const validateForm = (...elementObjects) => {
         let v = true
         elementObjects.forEach((elementObject) => {
-            v=(v &&validateInput(elementObject.elem, elementObject.elemFunc))
+            v = validateInput(elementObject.elem, elementObject.elemFunc) && v
         })
         return v
 
