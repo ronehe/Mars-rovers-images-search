@@ -1,6 +1,6 @@
 var express = require('express');
 const Cookies = require('cookies')
-const emails = require('../models/ds')
+const users = require('../models/ds')
 var router = express.Router();
 
 router.get('/', function (req, res, next){
@@ -13,13 +13,14 @@ router.get('/login', function(req, res, next){
 
 /* GET home page. */
 router.get('/register', function(req, res, next) {
-  console.log(emails)
   res.render('register', {
     typeName: 'text',
     typeMail: 'email',
-      typePassword: 'hidden',
-    action: 'register'
-  }
+    typePassword: 'hidden',
+    firstPageFormType: 'submit',
+    secondPageFormType: 'hidden',
+
+      }
   );
 
 });
@@ -41,7 +42,8 @@ router.post('/register', function(req, res, next) {
     typeName: 'hidden',
     typeMail: 'hidden',
     typePassword: 'password',
-    action: 'registrationComplete'
+    firstPageFormType: 'hidden',
+    secondPageFormType: 'submit',
     });
 
 });
@@ -52,12 +54,17 @@ router.post('/registrationComplete', function(req, res, next){
 
   // Get the cookie
   const cookieExists = cookies.get('cookieExists', { signed: true })
-  if(!cookieExists || emails.find(mail => {return mail === req.session.form.email})){
+  if(!cookieExists || users.find( req.session.form.email)) {
     res.redirect('/register')
   }
 
   else {
-    emails.push(req.session.form.email)
+    users.push(
+        req.session.form.firstName,
+        req.session.form.lastName,
+        req.session.form.email,
+        req.body.password,
+        )
     res.send('<h1>Thank you for registering</h1>');
   }
 

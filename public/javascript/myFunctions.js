@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    document.querySelector("form").addEventListener("submit", function (e) {
+    let forms = document.querySelectorAll("form") //get forms of 1st and 2nd page
+
+    //event listener for 1st form of names + email page
+    forms[0].addEventListener("submit", function (e) {
         e.preventDefault();
         let errMsg = document.getElementById("emailErrorMsg");
         if (errMsg.firstChild)
@@ -11,11 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let lastNameElem = this.querySelectorAll('input')[1]
         let emailElem = this.querySelectorAll('input')[2]
 
-        if (validatorModule.validateForm({elem: nameElem, elemFunc: validatorModule.isValidName}
-            , {elem: lastNameElem, elemFunc: validatorModule.isValidName}, {
-                elem: emailElem,
-                elemFunc: validatorModule.isValidEmail
-            }))
+        if (validatorModule.validateForm(
+            {elem: nameElem, elemFunc: validatorModule.isValidName},
+            {elem: lastNameElem, elemFunc: validatorModule.isValidName},
+            {elem: emailElem, elemFunc: validatorModule.isValidEmail}
+            ))
             fetch(`${theurl}/${this.querySelector('[type=email]').value}`)
                 .then((res) => res.json())
                 .then((data) => {
@@ -32,7 +35,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
     })
+
+    //event listener for 2nd form - passwords
+    forms[1].addEventListener("submit", function (e) {
+        let pswds = this.querySelectorAll('input')
+        let password = pswds[0]
+        let password2 = pswds[1]
+
+        if (!validatorModule.validateForm({
+            elem: password, elemFunc: ((password) => {
+                return validatorModule.isPasswordsMatch(password, password2.value)
+            })
+        }))
+            e.preventDefault();
+    })
 })
+
 
 // const validateForm = (name,lastName,email) => {
 //     let v1 = validateInput(name, validatorModule.isValidName)
@@ -100,6 +118,5 @@ const validatorModule = (() => {
         validateForm:validateForm
 
     }
-
 
 })();
