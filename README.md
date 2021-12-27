@@ -6,6 +6,7 @@
 <li> do not forget changing cookie to one minute.
 <li> api route is a bit weird - maybe need to change it? (making it post)
 A started template for your project
+<li> password validation is kind of messed up, need to probably do overhaul of the entire process</li>
 
 <h2> Current pages</h2>
 <li> '/' redirects to login page

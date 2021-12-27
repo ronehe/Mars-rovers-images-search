@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //event listener for 2nd form - passwords
     secondForm.addEventListener("submit", function (e) {
-        let [password, password2] = this.querySelectorAll('input')
+        let [password, password2] = this.querySelectorAll('[type=password]')
 
         if (!validatorModule.validateForm({
             elem: password, elemFunc: ((password) => {
