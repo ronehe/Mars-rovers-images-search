@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             elem: password, elemFunc: ((password) => {
                 return validatorModule.isPasswordsMatch(password, password2.value)
             })
-        },{elem:password,elemFunc: validatorModule.isValidatePasswordLength}))
+        }))
             e.preventDefault();
     })
 })
@@ -70,13 +70,6 @@ const validatorModule = (() => {
         }
     }
 
-    let validatePasswordLength = (password1) => {
-
-        return {
-            isValid: (password1.length>7),
-            message: 'The passwords length has to be at least 8 characters'
-        }
-    }
     let validateName = (name) => {
         let v = onlyAlphabet(name) && (name);
         return {
@@ -117,8 +110,8 @@ const validatorModule = (() => {
         isValidName: validateName,
         isValidEmail: validateEmail,
         isPasswordsMatch: validateSamePassword,
-        validateForm:validateForm,
-        isValidatePasswordLength:validatePasswordLength
+        validateForm:validateForm
+
     }
 
 })();
