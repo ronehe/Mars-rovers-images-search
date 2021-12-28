@@ -13,13 +13,21 @@ router.get('/login', function(req, res, next){
 
 /* GET home page. */
 router.get('/register', function(req, res, next) {
+  let keys = ['keyboard cat']
+  const cookies = new Cookies(req, res, { keys: keys })
+
+  // Get the cookie
+  const cookieExists = cookies.get('cookieExists', { signed: true })
+  if(!cookieExists) {
+    req.session.form = {}
+  }
   res.render('register', {
     typeName: 'text',
     typeMail: 'email',
     typePassword: 'hidden',
     firstPageFormType: 'submit',
     secondPageFormType: 'hidden',
-
+    data: req.session.form
       }
   );
 
@@ -44,6 +52,7 @@ router.post('/register', function(req, res, next) {
     typePassword: 'password',
     firstPageFormType: 'hidden',
     secondPageFormType: 'submit',
+    data: req.session.form
     });
 
 });
