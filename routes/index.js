@@ -42,7 +42,7 @@ router.post('/register', function(req, res, next) {
 
   // Get the cookie
     // Set the cookie with expiration time 10 seconds (for testing)
-    cookies.set('cookieExists', new Date().toISOString(), { signed: true, maxAge: 10*1000 });
+    cookies.set('cookieExists', new Date().toISOString(), { signed: true, maxAge: 60*1000 });
 
 
   res.render('register', {

@@ -10,12 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
         let theurl = "/api/resources";
         let nameElem, lastNameElem, emailElem;
         [nameElem, lastNameElem, emailElem] = this.querySelectorAll('input')
+        nameElem.nextElementSibling.innerHTML = ''
+        lastNameElem.nextElementSibling.innerHTML = ''
+        emailElem.nextElementSibling.innerHTML = ''
 
         if (validatorModule.validateForm(
             {elem: nameElem, elemFunc: validatorModule.isValidName},
             {elem: lastNameElem, elemFunc: validatorModule.isValidName},
             {elem: emailElem, elemFunc: validatorModule.isValidEmail}
-            ))
+        ))
             fetch(`${theurl}/${this.querySelector('[type=email]').value}`)
                 .then((res) => res.json())
                 .then((data) => {
@@ -36,12 +39,15 @@ document.addEventListener("DOMContentLoaded", () => {
     //event listener for 2nd form - passwords
     secondForm.addEventListener("submit", function (e) {
         let [password, password2] = this.querySelectorAll('[type=password]')
+        password.nextElementSibling.innerHTML = '';
+        password2.nextElementSibling.innerHTML = '';
 
         if (!validatorModule.validateForm({
-            elem: password, elemFunc: ((password) => {
-                return validatorModule.isPasswordsMatch(password, password2.value)
-            })
-        }))
+                elem: password, elemFunc: ((password) => {
+                    return validatorModule.isPasswordsMatch(password, password2.value)
+                })
+            },
+            {elem: password, elemFunc: validatorModule.isPasswordLong}))
             e.preventDefault();
     })
 })
@@ -66,7 +72,14 @@ const validatorModule = (() => {
 
         return {
             isValid: (password1 === password2),
-            message: 'The passwords don\'t match'
+            message: 'The passwords don\'t match<br>'
+        }
+    }
+
+    let validatePasswordLength = (password) => {
+        return{
+            isValid: (password.length > 7),
+            message: 'Password must be at least 8 characters long'
         }
     }
 
@@ -101,7 +114,7 @@ const validatorModule = (() => {
     const validateInput = (inputElement, validateFunc) => {
         let errorElement = inputElement.nextElementSibling; // the error message div
         let v = validateFunc(inputElement.value); // call the validation function
-        errorElement.innerHTML = v.isValid ? '' : v.message; // display the error message
+        errorElement.innerHTML += v.isValid ? '' : v.message; // display the error message
         v.isValid ? inputElement.classList.remove("is-invalid") : inputElement.classList.add("is-invalid");
         return v.isValid;
     }
@@ -110,6 +123,7 @@ const validatorModule = (() => {
         isValidName: validateName,
         isValidEmail: validateEmail,
         isPasswordsMatch: validateSamePassword,
+        isPasswordLong : validatePasswordLength,
         validateForm:validateForm
 
     }
