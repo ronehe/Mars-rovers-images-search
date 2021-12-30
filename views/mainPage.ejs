@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" rel="stylesheet">
+    <script src="js/mainPage.js"></script>
+    <link href="css/mycss.css" rel="stylesheet">
+    <title>Exercise 3 - Internet Programming Course template</title>
+</head>
+<body style="background:#4A3933">
+<div class="container-fluid">
+    <div class="row justify-content-center mb-5 mt-3">
+        <div class="col-10 ">
+            <div class="card my-2">
+                <div class="position-relative">
+                    <img alt="Card image" class="card-img rounded"  src="/images/mainPageImage.jpg">
+                    <div class="row">
+                        <div class="col-3 position-absolute top-50 start-0 translate-middle-y">
+                            <div class="card bg-info text-center">
+                                <div class="d-none d-md-block">
+                                    <h5><b>Mars Image Browser </b></h5>
+                                </div>
+                                <div class="d-none d-lg-block">
+                                    <p>Browse NASA Mars images and save your preferred ones.</p></div>
+                                <button class="btn btn-primary btn-sm" data-bs-target="#whoarewe" data-bs-toggle="modal"
+                                        type="button">Who are we
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card p-3" ><h5><b>Search for images</b></h5></div>
+                        </div>
+                    </div>
+                    <form class="p-3 my-2 border rounded">
+                        <div class="form-group">
+                            <label for="dateInput">Date(YYYY-MM-DD) or Sol</label>
+                            <input class="form-control" id="dateInput" name="date">
+                            <div></div>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="missionSelect">Select a mission</label>
+                            <select class="form-control" id="missionSelect" name="mission">
+                                <option>Choose a mission</option>
+                                <option>Curiosity</option>
+                                <option>Opportunity</option>
+                                <option>Spirit</option>
+                            </select>
+                            <div></div>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="cameraSelect">Select Camera</label>
+                            <select class="form-control" id="cameraSelect" name="camera">
+                                <option>Choose a camera</option>
+                                <option> FHAZ</option>
+                                <option> RHAZ</option>
+                                <option> MAST</option>
+                                <option> CHEMCAM</option>
+                                <option> MAHLI</option>
+                                <option> MARDI</option>
+                                <option> NAVCAM</option>
+                                <option> PANCAM</option>
+                                <option> MINITES</option>
+                            </select>
+                            <div></div>
+                        </div>
+                        <div class="mt-2">
+                            <button class="btn btn-outline-info" type="submit">Search</button>
+                            <button class="btn btn-outline-info pr-1" type="reset">Clear</button>
+                        </div>
+                        <div class="d-flex justify-content-center my-2 d-none">
+                            <div class="spinner-grow " role="status" style="width: 5rem; height: 5rem;">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card p-3"><h5><b>Saved images</b></h5></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 my-2">
+                            <button class="btn btn-outline-primary" id="startSlideShowBtn" type="button">Start slide
+                                show
+                            </button>
+                            <button class="btn btn-outline-primary" type="button">Stop slide show</button>
+                        </div>
+                        <div class="col">
+                            <ol id="slideLinks">
+
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-10 col-lg-block">
+                    <div class="carousel slide carousel-fade d-none" data-bs-ride="carousel"
+                         id="carouselExampleFade">
+                        <div class="carousel-inner">
+                        </div>
+                        <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleFade"
+                                type="button">
+                            <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselExampleFade"
+                                type="button">
+                            <span aria-hidden="true" class="carousel-control-next-icon"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card p-3 bg-info"><h5 ><b>Search results</b></h5></div>
+                        </div>
+                    </div>
+                    <div class="row mb-5 justify-content-center" id="searchResult">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="whoarewe" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title" id="exampleModalLabel">Who are we</h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>Ronen Heifetz ronenhe@edu.hac.ac.il</li>
+                    <li>Leon Markovich leonmar@edu.hac.ac.il</li>
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="savedImg" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title" id="modalLabel">Information</h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>the image is already saved</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script crossorigin="anonymous"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

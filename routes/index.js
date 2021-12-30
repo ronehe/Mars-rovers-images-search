@@ -67,6 +67,7 @@ router.post('/registrationComplete', function(req, res, next){
     res.redirect('/register')
   }
 
+
   else {
     users.push(
         req.session.form.firstName,
@@ -78,8 +79,14 @@ router.post('/registrationComplete', function(req, res, next){
   }
 
 })
+
+router.get('/mainPage', function(req, res, next){
+  res.render('mainPage')
+})
+
+
 router.get('/registrationComplete', function(req, res, next){
-res.redirect('/register')
+res.redirect('/mainPage')
 })
 
 module.exports = router;
