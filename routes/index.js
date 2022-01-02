@@ -3,96 +3,88 @@ const Cookies = require('cookies')
 const users = require('../models/ds')
 var router = express.Router();
 
-router.get('/', function (req, res, next){
-  res.redirect('/login')
+router.get('/', function (req, res, next) {
+    res.redirect('/login')
 })
 
-router.get('/login', function(req, res, next){
-  req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login');
+router.get('/login', function (req, res, next) {
+    req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login');
 })
 
 /* GET home page. */
-router.get('/register', function(req, res, next) {
-  let keys = ['keyboard cat']
-  const cookies = new Cookies(req, res, { keys: keys })
-
-  // Get the cookie
-  const cookieExists = cookies.get('cookieExists', { signed: true })
-  if(!cookieExists) {
-    req.session.form = {}
-  }
-  res.render('register', {
-    typeName: 'text',
-    typeMail: 'email',
-    typePassword: 'hidden',
-    firstPageFormType: 'submit',
-    secondPageFormType: 'hidden',
-    data: req.session.form
-      }
-  );
+router.get('/register', function (req, res, next) {
+    req.session.isLoggedIn ?
+        res.redirect('/mainPage') :
+        res.render('register', {
+                typeName: 'text',
+                typeMail: 'email',
+                typePassword: 'hidden',
+                firstPageFormType: 'submit',
+                secondPageFormType: 'hidden',
+                data: 'Sign up'
+            }
+        );
 
 });
 
-router.post('/register', function(req, res, next) {
+router.post('/register', function (req, res, next) {
 
-  req.session.form=req.body
+    req.session.form = req.body
 
-  let keys = ['keyboard cat']
-  const cookies = new Cookies(req, res, { keys: keys })
+    let keys = ['keyboard cat']
+    const cookies = new Cookies(req, res, {keys: keys})
 
-  // Get the cookie
+    // Get the cookie
     // Set the cookie with expiration time 10 seconds (for testing)
-    cookies.set('cookieExists', new Date().toISOString(), { signed: true, maxAge: 60*1000 });
+    cookies.set('cookieExists', new Date().toISOString(), {signed: true, maxAge: 60 * 1000});
 
 
-  res.render('register', {
+    res.render('register', {
 
-    typeName: 'hidden',
-    typeMail: 'hidden',
-    typePassword: 'password',
-    firstPageFormType: 'hidden',
-    secondPageFormType: 'submit',
-    data: req.session.form
+        typeName: 'hidden',
+        typeMail: 'hidden',
+        typePassword: 'password',
+        firstPageFormType: 'hidden',
+        secondPageFormType: 'submit',
+        data: 'Hello ' + req.session.form.firstName + '! Just a few more steps...'
     });
 
 });
 
-router.post('/registrationComplete', function(req, res, next){
-  let keys = ['keyboard cat']
-  const cookies = new Cookies(req, res, { keys: keys })
+router.get('/registrationComplete', function (req, res, next) {
+    res.redirect('/')
+})
 
-  // Get the cookie
-  const cookieExists = cookies.get('cookieExists', { signed: true })
-  if(!cookieExists || users.find( req.session.form.email)) {
-    res.redirect('/register')
-  }
+router.post('/registrationComplete', function (req, res, next) {
+    let keys = ['keyboard cat']
+    const cookies = new Cookies(req, res, {keys: keys})
 
+    req.session.isLoggedIn = true;
 
-  else {
-    users.push(
-        req.session.form.firstName,
-        req.session.form.lastName,
-        req.session.form.email,
-        req.body.password,
+    // Get the cookie
+    const cookieExists = cookies.get('cookieExists', {signed: true})
+    if (!cookieExists || users.find(req.session.form.email)) {
+        res.redirect('/register')
+    } else {
+        users.push(
+            req.session.form.firstName,
+            req.session.form.lastName,
+            req.session.form.email,
+            req.body.password,
         )
-    res.send('<h1>Thank you for registering</h1>');
-  }
+        res.render('registrationComplete');
+    }
 
 })
 
-router.get('/mainPage', function(req, res, next){
-  req.session.isLoggedIn ? res.render('mainPage', {data: req.session.form}) : res.redirect('/');
+router.get('/mainPage', function (req, res, next) {
+    req.session.isLoggedIn ? res.render('mainPage', {data: req.session.form}) : res.redirect('/');
 })
 
 
-router.get('/registrationComplete', function(req, res, next){
-  req.session.isLoggedIn = true;
-  res.redirect('/mainPage')
-})
-
-router.get('/logout', function(req, res, next){
-  req.session.isLoggedIn = false;
-  res.redirect('/');
+router.get('/logout', function (req, res, next) {
+    req.session.isLoggedIn = false;
+    res.redirect('/');
 })
 
 module.exports = router;
