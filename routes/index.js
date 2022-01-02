@@ -75,18 +75,16 @@ router.post('/registrationComplete', function(req, res, next){
         req.session.form.email,
         req.body.password,
         )
-    res.send('<h1>Thank you for registering</h1>');
   }
-
+  res.render('registrationComplete',{firstName:req.session.form.firstName})
 })
 
-router.get('/mainPage', function(req, res, next){
+router.post('/mainPage', function(req, res, next){
   res.render('mainPage')
 })
-
-
 router.get('/registrationComplete', function(req, res, next){
-res.redirect('/mainPage')
+  res.render('registrationComplete')
 })
+
 
 module.exports = router;
