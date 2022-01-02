@@ -8,7 +8,7 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/login', function(req, res, next){
-  res.render('login');
+  req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login');
 })
 
 /* GET home page. */
@@ -81,12 +81,18 @@ router.post('/registrationComplete', function(req, res, next){
 })
 
 router.get('/mainPage', function(req, res, next){
-  res.render('mainPage')
+  req.session.isLoggedIn ? res.render('mainPage', {data: req.session.form}) : res.redirect('/');
 })
 
 
 router.get('/registrationComplete', function(req, res, next){
-res.redirect('/mainPage')
+  req.session.isLoggedIn = true;
+  res.redirect('/mainPage')
+})
+
+router.get('/logout', function(req, res, next){
+  req.session.isLoggedIn = false;
+  res.redirect('/');
 })
 
 module.exports = router;
