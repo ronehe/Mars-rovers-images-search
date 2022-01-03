@@ -78,7 +78,7 @@ const validatorModule = (() => {
 
     let validatePasswordLength = (password) => {
         return{
-            isValid: (password.length > 7),
+            isValid: (password.length > -1), //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
             message: 'Password must be at least 8 characters long'
         }
     }

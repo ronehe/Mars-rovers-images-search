@@ -1,7 +1,8 @@
 var express = require('express');
 const Cookies = require('cookies')
-const users = require('../models/ds')
 var router = express.Router();
+const db = require('../models'); //contain the Contact model, which is accessible via db.Contact
+
 
 router.get('/', function (req, res, next) {
     res.redirect('/login')
@@ -59,20 +60,24 @@ router.post('/registrationComplete', function (req, res, next) {
     let keys = ['keyboard cat']
     const cookies = new Cookies(req, res, {keys: keys})
 
-    req.session.isLoggedIn = true;
 
     // Get the cookie
     const cookieExists = cookies.get('cookieExists', {signed: true})
-    if (!cookieExists || users.find(req.session.form.email)) {
+    if (!cookieExists /*|| users.find(req.session.form.email)*/) {
         res.redirect('/register')
     } else {
-        users.push(
-            req.session.form.firstName,
-            req.session.form.lastName,
-            req.session.form.email,
-            req.body.password,
-        )
-        res.render('registrationComplete');
+        req.session.isLoggedIn = true;
+        console.log(req.session.form)
+        req.session.form.password = req.body.password
+        console.log(req.session.form)
+        const {firstName, lastName, email, password} = req.session.form; // req.body.firstName, req.body.lastName, req.body.phone
+
+        return db.User.create({firstName, lastName, email, password})
+            .then((user) => res.render('registrationComplete'))
+            .catch((err) => {
+                console.log('***There was an error creating a contact', JSON.stringify(err))
+                return res.status(400).send(err)
+            })
     }
 
 })
@@ -85,6 +90,15 @@ router.get('/mainPage', function (req, res, next) {
 router.get('/logout', function (req, res, next) {
     req.session.isLoggedIn = false;
     res.redirect('/');
+})
+
+router.get('/findall', function (req, res, next) {
+    return db.User.findAll().then(alldata => {
+        res.send(alldata)
+    }).catch((err) => {
+        console.log("error", JSON.stringify(err));
+        return res.send({message: err})
+    })
 })
 
 module.exports = router;
