@@ -67,12 +67,9 @@ router.post('/registrationComplete', function (req, res, next) {
         res.redirect('/register')
     } else {
         req.session.isLoggedIn = true;
-        console.log(req.session.form)
         req.session.form.password = req.body.password
-        console.log(req.session.form)
-        const {firstName, lastName, email, password} = req.session.form; // req.body.firstName, req.body.lastName, req.body.phone
 
-        return db.User.create({firstName, lastName, email, password})
+        return db.User.create(req.session.form)
             .then((user) => res.render('registrationComplete'))
             .catch((err) => {
                 console.log('***There was an error creating a contact', JSON.stringify(err))
