@@ -89,7 +89,7 @@ router.get('/logout', function (req, res, next) {
 })
 
 router.get('/findall', function (req, res, next) {
-    return db.User.findAll().then(alldata => {
+    db.User.findAll().then(alldata => {
         res.send(alldata)
     }).catch((err) => {
         console.log("error", JSON.stringify(err));
@@ -97,4 +97,13 @@ router.get('/findall', function (req, res, next) {
     })
 })
 
+router.get('/removeall', function (req, res, next) {
+    db.User.findAll().then(alldata => {
+        alldata.forEach(data => {
+            data.destroy().catch(err => console.log("err"))
+        })
+    }).then(() => {
+        res.send('<h1>Destroyed!</h1>')
+    })
+})
 module.exports = router;
