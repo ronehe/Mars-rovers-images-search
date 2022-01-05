@@ -3,7 +3,6 @@ const Cookies = require('cookies')
 var router = express.Router();
 const db = require('../models'); //contain the Contact model, which is accessible via db.Contact
 
-
 router.get('/', function (req, res, next) {
     res.redirect('/login')
 })
@@ -67,9 +66,9 @@ router.post('/registrationComplete', function (req, res, next) {
         res.redirect('/register')
     } else {
         req.session.isLoggedIn = true;
-        req.session.form.password = req.body.password
-
-        return db.User.create(req.session.form)
+        const {firstName, lastName, mail} = req.session.form;
+        const {password} = req.body
+        return db.User.create({firstName, lastName, mail, password})
             .then((user) => res.render('registrationComplete'))
             .catch((err) => {
                 console.log('***There was an error creating a contact', JSON.stringify(err))
