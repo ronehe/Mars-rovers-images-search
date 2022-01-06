@@ -58,24 +58,29 @@ router.get('/registrationComplete', function (req, res, next) {
 router.post('/registrationComplete', function (req, res, next) {
     let keys = ['keyboard cat']
     const cookies = new Cookies(req, res, {keys: keys})
-
-
-    // Get the cookie
     const cookieExists = cookies.get('cookieExists', {signed: true})
-    if (!cookieExists /*|| users.find(req.session.form.email)*/) {
-        res.redirect('/register')
-    } else {
-        req.session.isLoggedIn = true;
-        const {firstName, lastName, mail} = req.session.form;
-        const {password} = req.body
-        return db.User.create({firstName, lastName, mail, password})
-            .then((user) => res.render('registrationComplete'))
+
+    const {firstName, lastName, mail} = req.session.form;
+    const {password} = req.body
+    if(cookieExists) {
+        db.User.findOrCreate({where: {mail: mail}, defaults: {firstName, lastName, mail, password}})
+                .then(([model, created]) => {
+                if(created) {
+                    res.render('registrationComplete')
+                    req.session.isLoggedIn = true;
+                }
+                else {
+                    req.session.isLoggedIn = false;
+                    res.redirect('/register')
+                    //probably need to send something to client...
+                }
+            })
             .catch((err) => {
                 console.log('***There was an error creating a contact', JSON.stringify(err))
                 return res.status(400).send(err)
             })
     }
-
+    else res.redirect('/register')
 })
 
 router.get('/mainPage', function (req, res, next) {
@@ -89,7 +94,7 @@ router.get('/logout', function (req, res, next) {
 })
 
 router.get('/findall', function (req, res, next) {
-    db.User.findAll().then(alldata => {
+    db.User.findAll({paranoid: false}).then(alldata => {
         res.send(alldata)
     }).catch((err) => {
         console.log("error", JSON.stringify(err));
@@ -98,12 +103,10 @@ router.get('/findall', function (req, res, next) {
 })
 
 router.get('/removeall', function (req, res, next) {
-    db.User.findAll().then(alldata => {
-        alldata.forEach(data => {
-            data.destroy().catch(err => console.log("err"))
-        })
-    }).then(() => {
-        res.send('<h1>Destroyed!</h1>')
+    db.User.destroy({truncate: true, resetIdentity: true})
+        .then(() => {
+            res.send('<h1>Destroyed!</h1>')
+        }).catch(() => {
     })
 })
 module.exports = router;
