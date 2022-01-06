@@ -19,20 +19,19 @@ document.addEventListener("DOMContentLoaded", () => {
             {elem: lastNameElem, elemFunc: validatorModule.isValidName},
             {elem: emailElem, elemFunc: validatorModule.isValidEmail}
         ))
-            fetch(`${theurl}/${this.querySelector('[type=email]').value}`)
+            document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none")
+            fetch(`${theurl}/${emailElem.value}`)
                 .then((res) => res.json())
                 .then((data) => {
                     if (!data.mailExists) {
                         this.submit();
                     } else {
-                        let findError = `<div class="card p-3 alert-warning "><h5 class="text-secondary"><b>
-                                     <strong>Oh No !</strong> the email is already used :( </b></h5></div>`
-                        document.getElementById("emailErrorMsg").innerHTML += findError
+                        emailElem.nextElementSibling.innerHTML += 'The mail you provided is already associated with an account'
                     }
                 })
                 .catch((e) => {
                     console.log("error", e)
-                });
+                }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none"));
 
     })
 
