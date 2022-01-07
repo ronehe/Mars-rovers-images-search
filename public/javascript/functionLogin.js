@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', function(){
     form.addEventListener('submit', function(e){
         loginValidator.resetErrors();
         loginValidator.clientValidator();
-        loginValidator.serverValidator('/api/resources/' + inputs[0].value + '/' + inputs[1].value, (data)=> {
+        let myForm = new FormData(form);
+        let query = new URLSearchParams(myForm).toString();
+        let link = '/api?' + query
+        loginValidator.serverValidator(link, (data)=> {
             if(!data.isValid){
                 loginValidator.errorLoc.classList.remove('d-none')
                 loginValidator.errorLoc.innerHTML = data.status;

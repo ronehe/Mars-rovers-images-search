@@ -11,13 +11,19 @@ router.get('/resources/:id', function (req, res, next) {
     }).catch(err => console.log(err))
 });
 
-router.get('/resources/:mail/:password', function (req, res, next) {
-    db.User.findOne({where: {mail: req.params.mail}})
+router.get('/', function (req, res, next) {
+    console.log(req.query)
+    db.User.findOne({where: {mail: req.query.mail}})
         .catch(() => {
+            console.log('error')
         res.json({isValid: false, status: 'user with associated mail was not found'})
     })
         .then(instance => {
-            if(req.params.password === instance.password){
+            console.log('success')
+
+            console.log(req.query, instance.password)
+            console.log('instance is: ', instance)
+            if(req.query.password === instance.password){
                 res.json({isValid: true, status: 'successfully registered'})
                 req.session.isLoggedIn = true;
             }

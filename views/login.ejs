@@ -27,19 +27,19 @@
                             <div class="card-body p-4 p-lg-5 text-black">
 
                                 <% if(form === 'login') { %>
-                                    <form id="loginForm" action="/mainPage" method="POST" role="form">
+                                    <form id="loginForm" action="/mainPage" method="get" role="form" name="myForm">
                                         <h5 class="fw-normal mb-3 pb-3">Sign into your account</h5>
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="form2Example17">Email address</label>
-                                            <input type="email" id="form2Example17"
+                                            <input type="email" id="form2Example17" name="mail"
                                                    class="form-control form-control-lg"/>
                                             <div></div>
                                         </div>
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="form2Example27">Password</label>
-                                            <input type="password" id="form2Example27"
+                                            <input type="password" id="form2Example27" name="password"
                                                    class="form-control form-control-lg"/>
                                             <div></div>
                                         </div>
