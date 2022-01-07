@@ -14,13 +14,7 @@ router.get('/resources/:id', function (req, res, next) {
 router.get('/', function (req, res, next) {
     console.log(req.query)
     db.User.findOne({where: {mail: req.query.mail}})
-        .catch(() => {
-            console.log('error')
-        res.json({isValid: false, status: 'user with associated mail was not found'})
-    })
         .then(instance => {
-            console.log('success')
-
             console.log(req.query, instance.password)
             console.log('instance is: ', instance)
             if(req.query.password === instance.password){
@@ -28,7 +22,11 @@ router.get('/', function (req, res, next) {
                 req.session.isLoggedIn = true;
             }
             else res.json({isValid: false, status: 'password is wrong'})
-        }).catch(err => console.log(err))
+        })
+        .catch(() => {
+        res.json({isValid: false, status: 'user with associated mail was not found'})
+    })
+
 
 });
 

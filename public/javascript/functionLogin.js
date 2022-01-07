@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function(){
         {elem: inputs[1], elemFunc: validatorModule.isPasswordLong})
 
     form.addEventListener('submit', function(e){
+        e.preventDefault()
         loginValidator.resetErrors();
         loginValidator.clientValidator();
         let myForm = new FormData(form);
@@ -16,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function(){
             if(!data.isValid){
                 loginValidator.errorLoc.classList.remove('d-none')
                 loginValidator.errorLoc.innerHTML = data.status;
-                e.preventDefault();
             }
+            else form.submit();
         });
 
     })
@@ -109,7 +110,7 @@ let formValidator = function (...elemObjects) {
                 else throw res.statusText;
             })
             .then(successFunction)
-            .catch(err => {this.errorLoc.classList.remove('d-none')})
+            .catch(() => {this.errorLoc.classList.remove('d-none')})
             .finally(() => {
                 this.spinner.classList.add("d-none")}
             )
