@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', function(){
         {elem: inputs[1], elemFunc: validatorModule.isPasswordLong})
 
     form.addEventListener('submit', function(e){
-        e.preventDefault()
         loginValidator.resetErrors();
         loginValidator.clientValidator();
-        loginValidator.serverValidator('/api/resources/' + inputs[0].value, (data) => {
-            if(data.mailExists){
-                inputs[0].nextElementSibling.innerHTML += data.status;
+        loginValidator.serverValidator('/api/resources/' + inputs[0].value + '/' + inputs[1].value, (data)=> {
+            if(!data.isValid){
+                loginValidator.errorLoc.classList.remove('d-none')
+                loginValidator.errorLoc.innerHTML = data.status;
+                e.preventDefault();
             }
-            else this.submit();
         });
 
     })
