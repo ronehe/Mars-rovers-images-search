@@ -11,4 +11,12 @@ router.get('/resources/:id', function (req, res, next) {
         res.json({mailExists: Boolean(instance)})
     }).catch(err => console.log(err))
 });
+
+router.get('/resources/:mail/:password', function (req, res, next) {
+    db.User.findOne({where: {mail: req.params.mail}}).then(instance => {
+        console.log(instance)
+        res.json({isValid: instance.password === req.params.password})
+    }).catch(err => console.log(err))
+});
+
 module.exports = router;

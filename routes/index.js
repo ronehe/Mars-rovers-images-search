@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
 })
 
 router.get('/login', function (req, res, next) {
-    req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login');
+    req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login', {form: 'login'});
 })
 
 /* GET home page. */
