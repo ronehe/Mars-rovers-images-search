@@ -26,45 +26,19 @@
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
 
-                                <% if(form === 'login') { %>
-                                    <form id="loginForm" action="/loginComplete" method="post" role="form"
-                                          name="myForm">
-                                        <h5 class="fw-normal mb-3 pb-3">Sign into your account</h5>
+                                <%-include('includes/'+form+'.ejs')%>
 
-                                        <div class="form-outline mb-4">
-                                            <label class="form-label" for="form2Example17">Email address</label>
-                                            <input type="email" id="form2Example17" name="mail"
-                                                   class="form-control form-control-lg"/>
-                                            <div></div>
-                                        </div>
-
-                                        <div class="form-outline mb-4">
-                                            <label class="form-label" for="form2Example27">Password</label>
-                                            <input type="password" id="form2Example27" name="password"
-                                                   class="form-control form-control-lg"/>
-                                            <div></div>
-                                        </div>
-
-                                        <div class="pt-1 mb-4">
-                                            <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
-                                        </div>
-                                        <p class="mb-5 pb-lg-2 text-dark">Don't have an account? <a href="register">Register
-                                                here</a></p>
-
-                                    </form>
-                                <% } %>
 
                                 <% if(error === 'mail'){ %>
                                     <div>mail doesn't exists</div>
                                 <% }else if(error === 'password'){ %>
-                                    <div>password doesn't exist</div>
+                                    <div>Password is wrong</div>
                                 <% } %>
 
                                 <div class="d-flex justify-content-center my-2 d-none">
                                     <div class="spinner-grow " role="status" style="width: 5rem; height: 5rem;">
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>

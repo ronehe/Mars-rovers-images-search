@@ -1,39 +1,94 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    let form = document.getElementById('loginForm')
+    let loginForm = document.getElementById('loginForm')
+    let registerMailForm = document.getElementById('registerMailForm');
+    let registerPasswordForm = document.getElementById('registerPasswordForm');
     let inputs = document.querySelectorAll('input')
-    let loginValidator = new formValidator(
-        {elem: inputs[0], elemFunc: validatorModule.isValidEmail},
-        {elem: inputs[1], elemFunc: validatorModule.isPasswordLong})
+    let elements = []
 
-    form.addEventListener('submit', function (e) {
-        e.preventDefault()
-        loginValidator.resetErrors();
+    if (loginForm) {
+        elements = [
+            {elem: inputs[0], elemFunc: validatorModule.isValidEmail},
+            {elem: inputs[1], elemFunc: validatorModule.isPasswordLong}
+        ]
 
-        if(loginValidator.clientValidator()){
-            form.submit();
-        }
+        let loginValidator = new FormValidator(elements);
+        loginForm.addEventListener('submit', function(e){
+            e.preventDefault();
+            loginValidator.resetErrors();
+
+            if (loginValidator.clientValidator()) {
+                loginForm.submit();
+            }
+        })
+    }
+
+    if (registerMailForm) {
+        elements = [
+            {elem: inputs[0], elemFunc: validatorModule.isValidName},
+            {elem: inputs[1], elemFunc: validatorModule.isValidName},
+            {elem: inputs[2], elemFunc: validatorModule.isValidEmail}]
+        let registerMailValidator = new FormValidator(elements);
 
 
+        registerMailForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            let clientValidation = false;
+            let serverValidation = false;
+            registerMailValidator.resetErrors();
 
-        // let myForm = new FormData(form);
-        //let query = new URLSearchParams(myForm).toString();
-        //let link = '/api?' + query
-        // loginValidator.serverValidator(link, (data)=> {
-        //     if(!data.isValid){
-        //         loginValidator.errorLoc.classList.remove('d-none')
-        //         loginValidator.errorLoc.innerHTML = data.status;
-        //     }
-        //     else{
-        //         console.log(form.action)
-        //         form.submit();
-        //     }
-        //
-        // });
+            if (registerMailValidator.clientValidator()) {
+                clientValidation = true;
+            }
+            registerMailValidator.serverValidator('/api/resources/' + inputs[2].value, (data) => {
+                if (data.mailExists) {
+                    inputs[2].nextElementSibling.innerHTML += 'The mail you provided is already associated with an account'
+                } else {
+                    registerMailForm.submit();
+                }
+            })
+        })
 
-    })
-})
 
+    }
+
+    if (registerPasswordForm) {
+        elements = [
+            {elem: inputs[0], elemFunc: validatorModule.isPasswordLong},
+            {elem: inputs[1], elemFunc: validatorModule.isPasswordLong},
+            {
+                elem: inputs[1], elemFunc: ((password) => {
+                    return validatorModule.isPasswordsMatch(password, inputs[0].value)
+                })
+            }]
+
+        let registerPasswordValidator = new FormValidator(elements);
+        registerPasswordForm.addEventListener('submit', function(e){
+            e.preventDefault();
+            registerPasswordValidator.resetErrors();
+
+            if (registerPasswordValidator.clientValidator()) {
+                registerPasswordForm.submit();
+            }
+        })
+    }
+});
+
+
+// let myForm = new FormData(form);
+//let query = new URLSearchParams(myForm).toString();
+//let link = '/api?' + query
+// loginValidator.serverValidator(link, (data)=> {
+//     if(!data.isValid){
+//         loginValidator.errorLoc.classList.remove('d-none')
+//         loginValidator.errorLoc.innerHTML = data.status;
+//     }
+//     else{
+//         console.log(form.action)
+//         form.submit();
+//     }
+//
+// });
 const validatorModule = (() => {
 
 
@@ -100,7 +155,7 @@ const validatorModule = (() => {
 })();
 
 
-let formValidator = function (...elemObjects) {
+let FormValidator = function (elemObjects) {
     this.elemObjects = elemObjects;
     this.errorLoc = document.querySelector('form').nextElementSibling;
     this.spinner = document.querySelector(".spinner-grow").parentElement;

@@ -8,20 +8,16 @@ router.get('/', function (req, res, next) {
 })
 
 router.get('/login', function (req, res, next) {
-    req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login', {form: 'login', error: req.query.error});
+    req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login', {form: 'loginForm', error: req.query.error});
 })
 
 /* GET home page. */
 router.get('/register', function (req, res, next) {
     req.session.isLoggedIn ?
         res.redirect('/mainPage') :
-        res.render('register', {
-                typeName: 'text',
-                typeMail: 'email',
-                typePassword: 'hidden',
-                firstPageFormType: 'submit',
-                secondPageFormType: 'hidden',
-                data: 'Sign up'
+        res.render('login', {
+            form: 'registerMailForm',
+            error: req.query.error
             }
         );
 
@@ -39,14 +35,9 @@ router.post('/register', function (req, res, next) {
     cookies.set('cookieExists', new Date().toISOString(), {signed: true, maxAge: 60 * 1000});
 
 
-    res.render('register', {
-
-        typeName: 'hidden',
-        typeMail: 'hidden',
-        typePassword: 'password',
-        firstPageFormType: 'hidden',
-        secondPageFormType: 'submit',
-        data: 'Hello ' + req.session.form.firstName + '! Just a few more steps...'
+    res.render('login', {
+        form: 'registerPasswordForm',
+        error: ''
     });
 
 });
