@@ -65,7 +65,7 @@ router.post('/registrationComplete', function (req, res, next) {
         db.User.findOrCreate({where: {mail: mail}, defaults: {firstName, lastName, mail, password}})
             .then(([model, created]) => {
                 req.session.isLoggedIn = created;
-                created? res.render('registrationComplete') : res.redirect('/register');
+                created ? res.render('registrationComplete') : res.redirect('/register');
             })
             .catch((err) => {
                 console.log('***There was an error creating a contact', JSON.stringify(err))
@@ -101,4 +101,35 @@ router.get('/removeall', function (req, res, next) {
         }).catch(() => {
     })
 })
+
+router.post("/loginComplete", function (req, res) {
+    db.User.findOne({where: {mail: req.body.mail}})
+        .then(instance => {
+            if (req.body.password === instance.password) {
+                req.session.isLoggedIn = true;
+                let {firstName, lastName, mail} = instance;
+                req.session.form = {firstName, lastName, mail};
+                res.json({isValid: true, status: 'successfully logged'})
+                res.redirect("/mainPage")
+            } else res.redirect("/login/invalid/password")
+        })
+
+        .catch(() => {
+            res.redirect("/login/invalid/mail")
+        })
+})
+
+
+
+
+router.get('/login/invalid/:id', function (req, res) {
+  res.render("login",{error:req.params.id,form:'login'})
+})
+
+
+
+
+
+
+
 module.exports = router;

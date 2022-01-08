@@ -12,7 +12,7 @@ router.get('/resources/:id', function (req, res, next) {
 });
 
 router.get('/', function (req, res, next) {
-    console.log(req.query)
+
     db.User.findOne({where: {mail: req.query.mail}})
         .then(instance => {
             if(req.query.password === instance.password){

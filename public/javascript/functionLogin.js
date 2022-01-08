@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
 
     let form = document.getElementById('loginForm')
     let inputs = document.querySelectorAll('input')
@@ -6,20 +6,30 @@ document.addEventListener('DOMContentLoaded', function(){
         {elem: inputs[0], elemFunc: validatorModule.isValidEmail},
         {elem: inputs[1], elemFunc: validatorModule.isPasswordLong})
 
-    form.addEventListener('submit', function(e){
+    form.addEventListener('submit', function (e) {
         e.preventDefault()
         loginValidator.resetErrors();
-        loginValidator.clientValidator();
-        let myForm = new FormData(form);
-        let query = new URLSearchParams(myForm).toString();
-        let link = '/api?' + query
-        loginValidator.serverValidator(link, (data)=> {
-            if(!data.isValid){
-                loginValidator.errorLoc.classList.remove('d-none')
-                loginValidator.errorLoc.innerHTML = data.status;
-            }
-            else form.submit();
-        });
+
+        if(loginValidator.clientValidator()){
+            form.submit();
+        }
+
+
+
+        // let myForm = new FormData(form);
+        //let query = new URLSearchParams(myForm).toString();
+        //let link = '/api?' + query
+        // loginValidator.serverValidator(link, (data)=> {
+        //     if(!data.isValid){
+        //         loginValidator.errorLoc.classList.remove('d-none')
+        //         loginValidator.errorLoc.innerHTML = data.status;
+        //     }
+        //     else{
+        //         console.log(form.action)
+        //         form.submit();
+        //     }
+        //
+        // });
 
     })
 })
@@ -40,7 +50,7 @@ const validatorModule = (() => {
     }
 
     let validatePasswordLength = (password) => {
-        return{
+        return {
             isValid: (password.length > -1), //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
             message: 'Password must be at least 8 characters long'
         }
@@ -60,8 +70,6 @@ const validatorModule = (() => {
             message: 'mail cant be empty '
         }
     }
-
-
 
 
     const validateForm = (elementObjects) => {
@@ -86,18 +94,19 @@ const validatorModule = (() => {
         isValidName: validateName,
         isValidEmail: validateEmail,
         isPasswordsMatch: validateSamePassword,
-        isPasswordLong : validatePasswordLength,
-        validateForm:validateForm,
+        isPasswordLong: validatePasswordLength,
+        validateForm: validateForm,
     }
 })();
-
 
 
 let formValidator = function (...elemObjects) {
     this.elemObjects = elemObjects;
     this.errorLoc = document.querySelector('form').nextElementSibling;
     this.spinner = document.querySelector(".spinner-grow").parentElement;
-    this.resetErrors = () => {elemObjects.forEach(element=>element.elem.nextElementSibling.innerHTML ='')}
+    this.resetErrors = () => {
+        elemObjects.forEach(element => element.elem.nextElementSibling.innerHTML = '')
+    }
     this.clientValidator = () => validatorModule.validateForm(this.elemObjects);
     this.serverValidator = (fetchLink, successFunction) => {
         this.spinner.classList.remove("d-none")
@@ -106,13 +115,15 @@ let formValidator = function (...elemObjects) {
             .then(res => {
                 if (res.status >= 200 && res.status <= 299) {
                     return res.json()
-                }
-                else throw res.statusText;
+                } else throw res.statusText;
             })
             .then(successFunction)
-            .catch(() => {this.errorLoc.classList.remove('d-none')})
+            .catch(() => {
+                this.errorLoc.classList.remove('d-none')
+            })
             .finally(() => {
-                this.spinner.classList.add("d-none")}
+                    this.spinner.classList.add("d-none")
+                }
             )
     }
 }
