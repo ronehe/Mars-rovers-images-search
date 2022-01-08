@@ -33,10 +33,10 @@ router.get('/', function (req, res, next) {
 router.post('/nasa', function (req, res, next) {
 
     console.log('before')
-    const {mail}=req.session.form.mail;
+    const mail=req.session.form.mail;
      const {url, sol, earth_date} = req.body
 
-    console.log(mail)
+    console.log("im mail :"+mail)
 
 
     db.Nasa.findOrCreate({where: {url: url}, defaults: {url, sol, earth_date, mail}})
