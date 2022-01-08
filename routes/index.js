@@ -56,7 +56,7 @@ router.post('/registrationComplete', function (req, res, next) {
         db.User.findOrCreate({where: {mail: mail}, defaults: {firstName, lastName, mail, password}})
             .then(([model, created]) => {
                 req.session.isLoggedIn = created;
-                created ? res.render('registrationComplete') : res.redirect('/register');
+                created ? res.render('login', {form: 'registrationCompleteForm', error: ''}) : res.redirect('/register');
             })
             .catch((err) => {
                 console.log('***There was an error creating a contact', JSON.stringify(err))
