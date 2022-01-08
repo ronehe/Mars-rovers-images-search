@@ -20,7 +20,7 @@
                             <img
                                     src="images/rover.png"
                                     alt="login form"
-                                    class="img-fluid rounded" alt="Sample image"
+                                    class="img-fluid rounded"
                             />
                         </div>
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
@@ -52,15 +52,12 @@
                                                 here</a></p>
 
                                     </form>
-                                <% }let error="" %>
+                                <% } %>
 
-                                <% if(error){ %>
-
-                                    <% if(error === 'mail'){ %>
-                                        <div>mail doesn't exists</div>
-                                    <% }else if(error === 'password'){ %>
-                                        <div>password doesn't exists</div>
-                                    <% } %>
+                                <% if(error === 'mail'){ %>
+                                    <div>mail doesn't exists</div>
+                                <% }else if(error === 'password'){ %>
+                                    <div>password doesn't exist</div>
                                 <% } %>
 
                                 <div class="d-flex justify-content-center my-2 d-none">

@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
 })
 
 router.get('/login', function (req, res, next) {
-    req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login', {form: 'login'});
+    req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login', {form: 'login', error: req.query.error});
 })
 
 /* GET home page. */
@@ -109,24 +109,14 @@ router.post("/loginComplete", function (req, res) {
                 req.session.isLoggedIn = true;
                 let {firstName, lastName, mail} = instance;
                 req.session.form = {firstName, lastName, mail};
-                res.json({isValid: true, status: 'successfully logged'})
                 res.redirect("/mainPage")
-            } else res.redirect("/login/invalid/password")
+            } else res.redirect("/login?error=password")
         })
 
         .catch(() => {
-            res.redirect("/login/invalid/mail")
+            res.redirect("/login?error=mail")
         })
 })
-
-
-
-
-router.get('/login/invalid/:id', function (req, res) {
-  res.render("login",{error:req.params.id,form:'login'})
-})
-
-
 
 
 
