@@ -85,6 +85,18 @@ router.get('/findall', function (req, res, next) {
     })
 })
 
+router.get('/findalln', function (req, res, next) {
+    db.Nasa.findAll({paranoid: false}).then(alldata => {
+        res.send(alldata)
+    }).catch((err) => {
+        console.log("error", JSON.stringify(err));
+        return res.send({message: err})
+    })
+})
+
+
+
+
 router.get('/removeall', function (req, res, next) {
     db.User.destroy({truncate: true, resetIdentity: true})
         .then(() => {

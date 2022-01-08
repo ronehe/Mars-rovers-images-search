@@ -326,6 +326,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
     }
 
     let addImgs = function (img) {
+        let theurl = "/api/nasa";
         let imgDisplayResults = document.getElementById("searchResult")
         let newImg = document.createElement(`div`)
         newImg.classList.add("col-auto")
@@ -351,6 +352,41 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
             if (!savedImages.find((element) => {
                 return (element.id === img.id)
             })) {
+                document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none")
+                fetch(`${theurl}`,{
+                    method:'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        url: img.img_src,
+                        sol:img.sol,
+                        earth_date:img.earth_date
+                    })
+
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (!data.pictureExists) {
+                            this.submit();
+                        } else {
+                            emailElem.nextElementSibling.innerHTML += data.status
+                        }
+                    })
+                    .catch((e) => {
+                        console.log("error", e)
+                    }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none"));
+
+
+
+
+
+
+
+
+
+
+
 
                 document.getElementById("slideLinks").innerHTML +=
                     `<li>
