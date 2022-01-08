@@ -15,11 +15,12 @@ router.get('/', function (req, res, next) {
     console.log(req.query)
     db.User.findOne({where: {mail: req.query.mail}})
         .then(instance => {
-            console.log(req.query, instance.password)
-            console.log('instance is: ', instance)
             if(req.query.password === instance.password){
-                res.json({isValid: true, status: 'successfully registered'})
                 req.session.isLoggedIn = true;
+                let {firstName, lastName, mail} = instance;
+                req.session.form = {firstName, lastName, mail};
+                res.json({isValid: true, status: 'successfully registered'})
+
             }
             else res.json({isValid: false, status: 'password is wrong'})
         })

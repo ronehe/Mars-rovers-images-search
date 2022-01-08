@@ -59,31 +59,23 @@ router.post('/registrationComplete', function (req, res, next) {
     let keys = ['keyboard cat']
     const cookies = new Cookies(req, res, {keys: keys})
     const cookieExists = cookies.get('cookieExists', {signed: true})
-
     const {firstName, lastName, mail} = req.session.form;
     const {password} = req.body
-    if(cookieExists) {
+    if (cookieExists) {
         db.User.findOrCreate({where: {mail: mail}, defaults: {firstName, lastName, mail, password}})
-                .then(([model, created]) => {
-                if(created) {
-                    res.render('registrationComplete')
-                    req.session.isLoggedIn = true;
-                }
-                else {
-                    req.session.isLoggedIn = false;
-                    res.redirect('/register')
-                    //probably need to send something to client...
-                }
+            .then(([model, created]) => {
+                req.session.isLoggedIn = created;
+                created? res.render('registrationComplete') : res.redirect('/register');
             })
             .catch((err) => {
                 console.log('***There was an error creating a contact', JSON.stringify(err))
                 return res.status(400).send(err)
             })
-    }
-    else res.redirect('/register')
+    } else res.redirect('/register')
 })
 
 router.get('/mainPage', function (req, res, next) {
+    console.log('in main page')
     req.session.isLoggedIn ? res.render('mainPage', {data: req.session.form}) : res.redirect('/');
 })
 
