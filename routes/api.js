@@ -3,8 +3,11 @@ const Cookies = require('cookies')
 var router = express.Router();
 const db = require('../models');
 const {param} = require("express/lib/router"); //contain the Contact model, which is accessible via db.Contact
+const {Op} = require('sequelize')
 
-
+router.all('*', function(req, res, next){
+    req.session.isLoggedIn ? next() : res.redirect('/../../login');
+})
 /* GET home page. */
 router.get('/resources/:id', function (req, res, next) {
     db.User.findOne({where: {mail: req.params.id}}).then(instance => {
@@ -39,16 +42,16 @@ router.post('/nasa', function (req, res, next) {
     console.log("im mail :"+mail)
 
 
-    db.Nasa.findOrCreate({where: {url: url}, defaults: {url, sol, earth_date, mail}})
+    db.Nasa.findOrCreate({where: {[Op.and]: {url: url, mail: mail}}, defaults: {url, sol, earth_date, mail}})
         .then(([model, created]) => {
             created ? res.json({pictureExists:created,status: 'img successfully added'}) :
                 res.json({pictureExists:created,status:'img is already in db'});
+            console.log(model, created);
         })
         .catch((err) => {
             console.log('***There was an error adding an image', JSON.stringify(err))
             return res.status(400).send(err)
         })
-
 });
 
 
