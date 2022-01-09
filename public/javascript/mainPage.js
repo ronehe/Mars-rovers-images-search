@@ -366,14 +366,18 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                     if (data.pictureExists) {
                         slideLinks.innerHTML +=
                             `<li>
-                    <form>
-                    <input type="hidden" value="${data.id}" name="id"/>
-                <button type="submit" class="btn btn-danger">delete</button>
-                </form>
+                    <div class="row">
+                <div class="col-auto">
 
                     <a target="_blank" href=${img.img_src}>Image id: ${img.id} </a>
                     <p>Earth date: ${img.earth_date}, Sol: ${img.sol}, Camera: ${img.camera.name}
                 </p>
+                </div>
+                <div class="col-auto"><form>
+                    <input type="hidden" value="${data.id}" name="id"/>
+                <button type="submit" class="btn btn-danger">delete</button>
+                </form>
+                </div>
                 </li>                `
 
 
