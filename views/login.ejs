@@ -28,11 +28,12 @@
 
                                 <%-include('includes/'+form+'.ejs')%>
 
-
                                 <% if(error === 'mail'){ %>
                                     <div>mail doesn't exists</div>
                                 <% }else if(error === 'password'){ %>
                                     <div>Password is wrong</div>
+                                <% }else if(error === 'sessiontimeout'){ %>
+                                    <div>session time out</div>
                                 <% } %>
 
                                 <div class="d-flex justify-content-center my-2 d-none">
@@ -40,7 +41,7 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </span>
                         </div>
                     </div>
                 </div>
