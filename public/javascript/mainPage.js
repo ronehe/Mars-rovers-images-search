@@ -366,9 +366,16 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                     if (data.pictureExists) {
                         slideLinks.innerHTML +=
                             `<li>
+                    <form>
+                    <input type="hidden" value="${data.id}" name="id"/>
+                <button type="submit" class="btn btn-danger">delete</button>
+                </form>
+
                     <a target="_blank" href=${img.img_src}>Image id: ${img.id} </a>
-                    <p>Earth date: ${img.earth_date}, Sol: ${img.sol}, Camera: ${img.camera.name}</p>
-                </li>`
+                    <p>Earth date: ${img.earth_date}, Sol: ${img.sol}, Camera: ${img.camera.name}
+                </p>
+                </li>                `
+
 
                         let newCarouselItem = document.createElement("div") //add to carousel
                         //if first item, set it on active
@@ -382,10 +389,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                  <a class="btn btn-primary" target="_blank" href=${img.img_src}>Full size</a>
                  <h5>${img.camera.name}</h5>
                  <h5>${img.earth_date}</h5>
-                 <form>
-                <input type="hidden" value="${data.id}" name="sol"/>
-                <button type="submit" class="btn btn-danger">delete</button>
-                </form>`
+                 `
 
 
                         document.querySelector(".carousel-inner").appendChild(newCarouselItem)
