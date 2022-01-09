@@ -367,18 +367,19 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                         slideLinks.innerHTML +=
                             `<li>
                     <div class="row">
-                <div class="col-auto">
+                <div class="col-9">
 
                     <a target="_blank" href=${img.img_src}>Image id: ${img.id} </a>
                     <p>Earth date: ${img.earth_date}, Sol: ${img.sol}, Camera: ${img.camera.name}
                 </p>
                 </div>
-                <div class="col-auto"><form>
+                <div class="col-3"><form>
                     <input type="hidden" value="${data.id}" name="id"/>
                 <button type="submit" class="btn btn-danger">delete</button>
                 </form>
                 </div>
                 </li>`
+                        slideLinks.lastElementChild.querySelector('form').addEventListener('submit', deleteImage)
 
 
                         let newCarouselItem = document.createElement("div") //add to carousel
@@ -410,6 +411,14 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
 
         imgDisplayResults.appendChild(newImg)
+    }
+
+    let deleteImage = function(e){
+        e.preventDefault();
+        let params = new URLSearchParams((new FormData(this)));
+        fetch('/api/remove?' + params, {
+            method: 'DELETE',
+        })
     }
 
 

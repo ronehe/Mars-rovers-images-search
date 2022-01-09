@@ -54,7 +54,7 @@ router.post('/nasa', function (req, res, next) {
         })
 });
 
-router.get('/remove', function (req, res, next) {
+router.delete('/remove', function (req, res, next) {
     db.Nasa.destroy({where: {id: req.query.id}})
         .then(() => {
             res.send('<h1>Destroyed!</h1>')
@@ -69,6 +69,7 @@ router.get('/removeall', function (req, res, next) {
         }).catch(() => {
     })
 })
+
 
 
 module.exports = router;
