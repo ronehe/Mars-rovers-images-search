@@ -40,7 +40,8 @@ router.post('/register', function (req, res, next) {
 
     res.render('login', {
         form: 'registerPasswordForm',
-        error: ''
+        error: '',
+        data: req.session.form
     });
 
 });
