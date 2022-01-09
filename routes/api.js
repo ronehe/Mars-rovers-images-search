@@ -44,7 +44,7 @@ router.post('/nasa', function (req, res, next) {
 
     db.Nasa.findOrCreate({where: {[Op.and]: {url: url, mail: mail}}, defaults: {url, sol, earth_date, mail}})
         .then(([model, created]) => {
-            created ? res.json({pictureExists:created,status: 'img successfully added'}) :
+            created ? res.json({pictureExists:created,status: 'img successfully added', id: model.id}) :
                 res.json({pictureExists:created,status:'img is already in db'});
             console.log(model, created);
         })
@@ -53,6 +53,22 @@ router.post('/nasa', function (req, res, next) {
             return res.status(400).send(err)
         })
 });
+
+router.get('/remove', function (req, res, next) {
+    db.Nasa.destroy({where: {id: req.query.id}})
+        .then(() => {
+            res.send('<h1>Destroyed!</h1>')
+        }).catch(() => {
+    })
+})
+
+router.get('/removeall', function (req, res, next) {
+    db.Nasa.destroy()
+        .then(() => {
+            res.send('<h1>Destroyed!</h1>')
+        }).catch(() => {
+    })
+})
 
 
 module.exports = router;

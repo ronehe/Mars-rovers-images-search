@@ -156,9 +156,6 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
             '/photos?' +
             paramGenerator(dateElem, cameraElem)
     }
-
-    let savedImages = [] //stores images objects from NASA api
-
     /***
      * Parameter generator for fetch link
      * always appends api key
@@ -384,7 +381,12 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                  <div class="carousel-caption">
                  <a class="btn btn-primary" target="_blank" href=${img.img_src}>Full size</a>
                  <h5>${img.camera.name}</h5>
-                 <h5>${img.earth_date}</h5>`
+                 <h5>${img.earth_date}</h5>
+                 <form>
+                <input type="hidden" value="${data.id}" name="sol"/>
+                <button type="submit" class="btn btn-danger">delete</button>
+                </form>`
+
 
                         document.querySelector(".carousel-inner").appendChild(newCarouselItem)
                         document.querySelector('.carousel').nextElementSibling.innerHTML = '' //set error to none
