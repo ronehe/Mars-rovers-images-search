@@ -244,9 +244,10 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
 
         let startSlideShowBtn = document.getElementById("startSlideShowBtn")
+        let slideLinks = document.getElementById("slideLinks");
         let carousel = document.querySelector(".carousel")
         startSlideShowBtn.addEventListener("click", () => {
-            savedImages.length ? //if no empty images show an error message instead of carousel
+            slideLinks.childElementCount > 0 ? //if no empty images show an error message instead of carousel
                 carousel.classList.remove("d-none") :
                 carousel.nextElementSibling.innerHTML = `<div class="card p-3 alert-danger"><h5>Save your favourite photos to add to slideshow!</h5></div>`
         })
@@ -327,6 +328,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
     let addImgs = function (img) {
         let theurl = "/api/nasa";
+        let slideLinks = document.getElementById("slideLinks");
         let imgDisplayResults = document.getElementById("searchResult")
         let newImg = document.createElement(`div`)
         newImg.classList.add("col-auto")
@@ -349,79 +351,58 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
             //when an image is chosen redirect button to modal
             this.setAttribute("data-bs-target", "#savedImg")
             this.setAttribute("data-bs-toggle", "modal")
-            if (!savedImages.find((element) => {
-                return (element.id === img.id)
-            })) {
-                document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none")
-                fetch(`${theurl}`,{
-                    method:'POST',
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        url: img.img_src,
-                        sol:img.sol,
-                        earth_date:img.earth_date
-                    })
-
+            document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none")
+            fetch(`${theurl}`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url: img.img_src,
+                    sol: img.sol,
+                    earth_date: img.earth_date
                 })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        if (!data.pictureExists) {
-                            this.submit();
-                        } else {
-                            emailElem.nextElementSibling.innerHTML += data.status
-                        }
-                    })
-                    .catch((e) => {
-                        console.log("error", e)
-                    }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none"));
 
-
-
-
-
-
-
-
-
-
-
-
-                document.getElementById("slideLinks").innerHTML +=
-                    `<li>
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.pictureExists) {
+                        slideLinks.innerHTML +=
+                            `<li>
                     <a target="_blank" href=${img.img_src}>Image id: ${img.id} </a>
                     <p>Earth date: ${img.earth_date}, Sol: ${img.sol}, Camera: ${img.camera.name}</p>
                 </li>`
 
-                let newCarouselItem = document.createElement("div") //add to carousel
-                //if first item, set it on active
-                !savedImages.length ?
-                    newCarouselItem.classList.add("carousel-item", "active") :
-                    newCarouselItem.classList.add("carousel-item")
+                        let newCarouselItem = document.createElement("div") //add to carousel
+                        //if first item, set it on active
+                        slideLinks.childElementCount === 1 ?
+                            newCarouselItem.classList.add("carousel-item", "active") :
+                            newCarouselItem.classList.add("carousel-item")
 
-                newCarouselItem.innerHTML +=
-                    `<img src="${img.img_src}" alt="${img.img_src}" class="d-block rounded w-100 img-fluid mx-auto">
+                        newCarouselItem.innerHTML +=
+                            `<img src="${img.img_src}" alt="${img.img_src}" class="d-block rounded w-100 img-fluid mx-auto">
                  <div class="carousel-caption">
                  <a class="btn btn-primary" target="_blank" href=${img.img_src}>Full size</a>
                  <h5>${img.camera.name}</h5>
                  <h5>${img.earth_date}</h5>`
 
-                document.querySelector(".carousel-inner").appendChild(newCarouselItem)
-                document.querySelector('.carousel').nextElementSibling.innerHTML = '' //set error to none
-                savedImages.push(img)
+                        document.querySelector(".carousel-inner").appendChild(newCarouselItem)
+                        document.querySelector('.carousel').nextElementSibling.innerHTML = '' //set error to none
+                    } else this.click() //if already present, click again to show modal.
+
+                })
+                .catch((e) => {
+                    console.log("error", e)
+                }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none"));
 
 
-            } else
-                this.click() //if already present, click again to show modal.
-
-        })
+        }, {once: true})
 
 
         imgDisplayResults.appendChild(newImg)
-
-
     }
+
+
 })();
 
 

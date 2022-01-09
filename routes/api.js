@@ -23,7 +23,7 @@ router.get('/', function (req, res, next) {
                 req.session.isLoggedIn = true;
                 let {firstName, lastName, mail} = instance;
                 req.session.form = {firstName, lastName, mail};
-                res.json({isValid: true, status: 'successfully registered'})
+                res.json({isValid: true, status: 'successfully logged in'})
             } else res.json({isValid: false, status: 'password is wrong'})
         })
         .catch(() => {
