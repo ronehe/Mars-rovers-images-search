@@ -63,7 +63,7 @@ router.get('/remove', function (req, res, next) {
 })
 
 router.get('/removeall', function (req, res, next) {
-    db.Nasa.destroy()
+    db.Nasa.destroy({truncate: true, resetIdentity: true})
         .then(() => {
             res.send('<h1>Destroyed!</h1>')
         }).catch(() => {
