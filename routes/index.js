@@ -8,7 +8,10 @@ router.get('/', function (req, res, next) {
 })
 
 router.get('/login', function (req, res, next) {
-    req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login', {form: 'loginForm', error: req.query.error});
+    req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login', {
+        form: 'loginForm',
+        error: req.query.error
+    });
 })
 
 /* GET home page. */
@@ -37,7 +40,8 @@ router.post('/register', function (req, res, next) {
 
     res.render('login', {
         form: 'registerPasswordForm',
-        error: ''
+        error: '',
+        data: req.session.form
     });
 
 });
@@ -56,13 +60,17 @@ router.post('/registrationComplete', function (req, res, next) {
         db.User.findOrCreate({where: {mail: mail}, defaults: {firstName, lastName, mail, password}})
             .then(([model, created]) => {
                 req.session.isLoggedIn = created;
-                created ? res.render('registrationComplete') : res.redirect('/register');
+                created ? res.render('login', {
+                    form: 'registrationCompleteForm',
+                    error: '',
+                    data: req.session.form
+                }) : res.redirect('/register');
             })
             .catch((err) => {
                 console.log('***There was an error creating a contact', JSON.stringify(err))
                 return res.status(400).send(err)
             })
-    } else res.redirect('/register')
+    } else res.redirect('/register?error=sessiontimeout')
 })
 
 router.get('/mainPage', function (req, res, next) {
