@@ -205,6 +205,9 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
             return operationTime;
         })()
 
+        document.getElementById('slideLinks').querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', deleteImage)
+        })
 
         // initialize form submission button
         document.querySelector("form").addEventListener("submit", function (e) {
@@ -364,8 +367,9 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.pictureExists) {
-                        slideLinks.innerHTML +=
-                            `<li>
+                        let li = document.createElement('li');
+                        li.innerHTML =
+                            `
                     <div class="row">
                 <div class="col-9">
 
@@ -378,8 +382,9 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 <button type="submit" class="btn btn-danger">delete</button>
                 </form>
                 </div>
-                </li>`
-                        slideLinks.lastElementChild.querySelector('form').addEventListener('submit', deleteImage)
+                </div>`
+                        li.querySelector('form').addEventListener('submit', deleteImage)
+                        slideLinks.appendChild(li);
 
 
                         let newCarouselItem = document.createElement("div") //add to carousel
@@ -413,12 +418,13 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
         imgDisplayResults.appendChild(newImg)
     }
 
-    let deleteImage = function(e){
+    let deleteImage = function (e) {
         e.preventDefault();
         let params = new URLSearchParams((new FormData(this)));
         fetch('/api/remove?' + params, {
             method: 'DELETE',
         })
+        this.parentElement.parentElement.parentElement.remove();
     }
 
 

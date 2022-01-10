@@ -111,6 +111,24 @@
                         </div>
                         <div class="col">
                             <ol id="slideLinks">
+                                <%allData.forEach(element => { %>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-9">
+
+                                            <a target="_blank" href=<%=element.url%>>Image id: <%=element.id%> </a>
+                                            <p>Earth date: <%=element.earth_date%>, Sol: <%=element.sol%>, Camera: camera
+                                            </p>
+                                        </div>
+                                        <div class="col-3"><form>
+                                                <input type="hidden" value=<%=element.id%> name="id"/>
+                                                <button type="submit" class="btn btn-danger">delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <%})%>
 
                             </ol>
                         </div>
