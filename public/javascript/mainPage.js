@@ -360,7 +360,9 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 body: JSON.stringify({
                     url: img.img_src,
                     sol: img.sol,
-                    earth_date: img.earth_date
+                    earth_date: img.earth_date,
+                    img_id: img.id,
+                    camera: img.camera.name
                 })
 
             })
@@ -384,6 +386,9 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 </div>
                 </div>`
                         li.querySelector('form').addEventListener('submit', deleteImage)
+                        li.querySelector('form').addEventListener('submit', () => {
+                            this.removeAttribute('data-bs-toggle');
+                            this.removeAttribute('data-bs-target')})
                         slideLinks.appendChild(li);
 
 

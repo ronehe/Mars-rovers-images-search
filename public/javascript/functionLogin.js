@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let loginForm = document.getElementById('loginForm')
     let registerMailForm = document.getElementById('registerMailForm');
     let registerPasswordForm = document.getElementById('registerPasswordForm');
-    let inputs = document.querySelectorAll('input')
-    let elements = []
+    let inputs = document.querySelectorAll('input');
+    let elements = [];
 
     if (loginForm) {
         elements = [
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (registerMailValidator.clientValidator()) {
                 clientValidation = true;
             }
-            registerMailValidator.serverValidator('/api/resources/' + inputs[2].value, (data) => {
+            registerMailValidator.serverValidator('/form/' + inputs[2].value, (data) => {
                 if (data.mailExists) {
                     inputs[2].nextElementSibling.innerHTML += 'The mail you provided is already associated with an account'
                 } else {

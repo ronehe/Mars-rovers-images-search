@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     url: DataTypes.STRING,
     sol: DataTypes.STRING,
     earth_date: DataTypes.STRING,
-    mail: DataTypes.STRING
+    mail: DataTypes.STRING,
+    img_id: DataTypes.STRING,
+    camera: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Nasa',

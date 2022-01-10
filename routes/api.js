@@ -37,12 +37,12 @@ router.post('/nasa', function (req, res, next) {
 
     console.log('before')
     const mail=req.session.form.mail;
-     const {url, sol, earth_date} = req.body
+     const {url, sol, earth_date,camera, img_id} = req.body
 
     console.log("im mail :"+mail)
 
 
-    db.Nasa.findOrCreate({where: {[Op.and]: {url: url, mail: mail}}, defaults: {url, sol, earth_date, mail}})
+    db.Nasa.findOrCreate({where: {[Op.and]: {url: url, mail: mail}}, defaults: {url, sol, earth_date, mail, img_id, camera}})
         .then(([model, created]) => {
             created ? res.json({pictureExists:created,status: 'img successfully added', id: model.id}) :
                 res.json({pictureExists:created,status:'img is already in db'});
