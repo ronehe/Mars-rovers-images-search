@@ -148,7 +148,7 @@
                             <%let first =true;
                             allData.forEach(elem=>{ %>
 
-                            <div class="carousel-item <% if(first) {%> active<%first=false}%>">
+                            <div class="carousel-item data-id=<%= elem.img_id%><% if(first) {%> active<%first=false}%>">
                                 <img src=<%=elem.url%> alt=<%=elem.url%>
                                      class="d-block rounded w-100 img-fluid mx-auto">
                             <div class="carousel-caption">
@@ -172,8 +172,10 @@
                                 <span class="visually-hidden">Next</span>
                             </button>
                         </div>
-                        <div></div>
+
                     </div>
+                    <div></div>
+
                 </div>
 
 

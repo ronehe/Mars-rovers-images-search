@@ -392,6 +392,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
 
                         let newCarouselItem = document.createElement("div") //add to carousel
+                        newCarouselItem.setAttribute("data-id",img.id)
                         //if first item, set it on active
                         slideLinks.childElementCount === 1 ?
                             newCarouselItem.classList.add("carousel-item", "active") :
@@ -433,11 +434,15 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
     let deleteImage = function (e) {
         e.preventDefault();
-        let params = new URLSearchParams((new FormData(this)));
+        let data=new FormData(this)
+
+        let params = new URLSearchParams(data);
         fetch('/api/remove?' + params, {
             method: 'DELETE',
+        });
+        [... document.querySelectorAll(".carousel-item")].find(elem=>{
+            return data.get("id")===elem.getAttribute('data-id')
         })
-
         this.parentElement.parentElement.parentElement.remove();
     }
 
