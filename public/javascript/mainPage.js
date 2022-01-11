@@ -381,7 +381,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 </p>
                 </div>
                 <div class="col-3"><form>
-                    <input type="hidden" value="${data.id}" name="id"/>
+                    <input type="hidden" value="${img.id}" name="id"/>
                 <button type="submit" class="btn btn-danger">delete</button>
                 </form>
                 </div>
@@ -440,9 +440,17 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
         fetch('/api/remove?' + params, {
             method: 'DELETE',
         });
-        [... document.querySelectorAll(".carousel-item")].find(elem=>{
+        let carouselItem = [...document.querySelectorAll(".carousel-item")].find(elem=>{
             return data.get("id")===elem.getAttribute('data-id')
         })
+        carouselItem.remove();
+        if(carouselItem.classList.contains('active')){
+            let firstCarouselItem = document.querySelector('.carousel-item')
+            if(firstCarouselItem){
+                firstCarouselItem.classList.add('active')
+            }
+        }
+
         this.parentElement.parentElement.parentElement.remove();
     }
 

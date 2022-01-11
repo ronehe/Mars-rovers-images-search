@@ -55,7 +55,7 @@ router.post('/nasa', function (req, res, next) {
 });
 
 router.delete('/remove', function (req, res, next) {
-    db.Nasa.destroy({where: {id: req.query.id}})
+    db.Nasa.destroy({where: {img_id: req.query.id}})
         .then(() => {
             res.send('<h1>Destroyed!</h1>')
         }).catch(() => {
