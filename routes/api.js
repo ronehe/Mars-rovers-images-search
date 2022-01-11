@@ -44,8 +44,8 @@ router.post('/nasa', function (req, res, next) {
 
     db.Nasa.findOrCreate({where: {[Op.and]: {url: url, mail: mail}}, defaults: {url, sol, earth_date, mail, img_id, camera}})
         .then(([model, created]) => {
-            created ? res.json({pictureExists:created,status: 'img successfully added', id: model.id}) :
-                res.json({pictureExists:created,status:'img is already in db'});
+            created ? res.json({pictureExists:!created,status:'img is already in db' , id: model.id}) :
+                res.json({pictureExists:!created,status:'img successfully added'});
             console.log(model, created);
         })
         .catch((err) => {

@@ -335,7 +335,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
         newImg.innerHTML = `
                         <div class="card my-2" style="width: 18rem;">
-                            <div class="card-body">
+                            <div class="card-body" id=${img.id}>
                                 <img src=${img.img_src} class="card-img-top" alt="...">
                                 <p>${img.earth_date}</p>
                                 <p>${img.sol}</p>
@@ -348,6 +348,15 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
 
         newImg.querySelector('button').addEventListener("click", function () {
+           // if( ![...slideLinks.querySelectorAll('li')].find(function(elem){
+           //      return elem.id===newImg.id
+           //  }))
+           // {
+           //     this.removeAttribute("data-bs-target")
+           //     this.removeAttribute("data-bs-toggle")
+           //     return;
+           // }
+
             //when an image is chosen redirect button to modal
             this.setAttribute("data-bs-target", "#savedImg")
             this.setAttribute("data-bs-toggle", "modal")
@@ -368,11 +377,11 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    if (data.pictureExists) {
+                    if (!data.pictureExists) {
                         let li = document.createElement('li');
                         li.innerHTML =
                             `
-                    <div class="row">
+                    <div class="row" data-name=${img.id}>
                 <div class="col-9">
 
                     <a target="_blank" href=${img.img_src}>Image id: ${img.id} </a>
@@ -386,9 +395,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 </div>
                 </div>`
                         li.querySelector('form').addEventListener('submit', deleteImage)
-                        li.querySelector('form').addEventListener('submit', () => {
-                            this.removeAttribute('data-bs-toggle');
-                            this.removeAttribute('data-bs-target')})
+
                         slideLinks.appendChild(li);
 
 
@@ -409,7 +416,8 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
                         document.querySelector(".carousel-inner").appendChild(newCarouselItem)
                         document.querySelector('.carousel').nextElementSibling.innerHTML = '' //set error to none
-                    } else this.click() //if already present, click again to show modal.
+                    } else this.click();
+
 
                 })
                 .catch((e) => {
@@ -417,10 +425,11 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none"));
 
 
-        }, {once: true})
+        },{once:true})
 
 
         imgDisplayResults.appendChild(newImg)
+
     }
 
     let deleteImage = function (e) {
@@ -429,6 +438,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
         fetch('/api/remove?' + params, {
             method: 'DELETE',
         })
+
         this.parentElement.parentElement.parentElement.remove();
     }
 
