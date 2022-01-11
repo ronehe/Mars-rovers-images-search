@@ -209,6 +209,9 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
             form.addEventListener('submit', deleteImage)
         })
 
+        let myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+            keyboard: false
+        })
         // initialize form submission button
         document.querySelector("form").addEventListener("submit", function (e) {
             e.preventDefault() //prevent sending http request
@@ -221,6 +224,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
             if (validateForm(dateElem, missionElem, cameraElem)) {
 
                 document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none")
+                searchResults(generateFetchLink(dateElem, missionElem, cameraElem))
                 searchResults(generateFetchLink(dateElem, missionElem, cameraElem))
             }
         });
@@ -386,9 +390,6 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 </div>
                 </div>`
                         li.querySelector('form').addEventListener('submit', deleteImage)
-                        li.querySelector('form').addEventListener('submit', () => {
-                            this.removeAttribute('data-bs-toggle');
-                            this.removeAttribute('data-bs-target')})
                         slideLinks.appendChild(li);
 
 
@@ -409,15 +410,17 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
                         document.querySelector(".carousel-inner").appendChild(newCarouselItem)
                         document.querySelector('.carousel').nextElementSibling.innerHTML = '' //set error to none
-                    } else this.click() //if already present, click again to show modal.
+                    } else {
+                        myModal.show()
+                    }
+                    //if already present, click again to show modal.
 
                 })
                 .catch((e) => {
                     console.log("error", e)
                 }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none"));
 
-
-        }, {once: true})
+        })
 
 
         imgDisplayResults.appendChild(newImg)
