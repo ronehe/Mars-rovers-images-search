@@ -348,18 +348,8 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
 
         newImg.querySelector('button').addEventListener("click", function () {
-           // if( ![...slideLinks.querySelectorAll('li')].find(function(elem){
-           //      return elem.id===newImg.id
-           //  }))
-           // {
-           //     this.removeAttribute("data-bs-target")
-           //     this.removeAttribute("data-bs-toggle")
-           //     return;
-           // }
 
-            //when an image is chosen redirect button to modal
-            this.setAttribute("data-bs-target", "#savedImg")
-            this.setAttribute("data-bs-toggle", "modal")
+
             document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none")
             fetch(`${theurl}`, {
                 method: 'POST',
@@ -416,7 +406,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
                         document.querySelector(".carousel-inner").appendChild(newCarouselItem)
                         document.querySelector('.carousel').nextElementSibling.innerHTML = '' //set error to none
-                    } else this.click();
+                    } else document.getElementById('savedImg').show(); //if already present -show modal.
 
 
                 })
@@ -425,7 +415,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none"));
 
 
-        },{once:true})
+        })
 
 
         imgDisplayResults.appendChild(newImg)
