@@ -327,6 +327,8 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
     }
 
     let addImgs = function (img) {
+
+
         let theurl = "/api/nasa";
         let slideLinks = document.getElementById("slideLinks");
         let imgDisplayResults = document.getElementById("searchResult")
@@ -406,7 +408,14 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
                         document.querySelector(".carousel-inner").appendChild(newCarouselItem)
                         document.querySelector('.carousel').nextElementSibling.innerHTML = '' //set error to none
-                    } else document.getElementById('savedImg').show(); //if already present -show modal.
+                    } else {
+                        let myModel=new bootstrap.Modal(document.getElementById('savedImg'), {
+                            keyboard: false,
+                        })
+                        myModel.show()
+
+                  //     myModal.show();
+                    } //if already present -show modal.
 
 
                 })
