@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
         registerMailForm.addEventListener('submit', function (e) {
             e.preventDefault();
             let clientValidation = false;
-            let serverValidation = false;
             registerMailValidator.resetErrors();
 
             if (registerMailValidator.clientValidator()) {
@@ -44,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.mailExists) {
                     inputs[2].nextElementSibling.innerHTML += 'The mail you provided is already associated with an account'
                 } else {
-                    registerMailForm.submit();
+                    if(clientValidation) registerMailForm.submit();
                 }
             })
         })
