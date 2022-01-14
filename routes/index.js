@@ -19,17 +19,16 @@ const db = require('../models'); //contain the Contact model, which is accessibl
 // })
 //
 // /* GET home page. */
-// router.get('/register', function (req, res, next) {
-//     req.session.isLoggedIn ?
-//         res.redirect('/mainPage') :
-//         res.render('login', {
-//             form: 'registerMailForm',
-//             error: req.query.error
-//             }
-//         );
-//
-// });
-//
+ router.get('/gigi/:booboo', function (req, res, next) {
+     req.session.isLoggedIn ?
+         res.redirect('/mainPage') :
+         res.render('login', {
+             form: 'registerMailForm',
+             error: req.query.error
+             }
+         );
+ });
+
 // router.post('/register', function (req, res, next) {
 //
 //     req.session.form = req.body
