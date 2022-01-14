@@ -86,10 +86,10 @@ const db = require('../models'); //contain the Contact model, which is accessibl
 // })
 //
 //
-// router.get('/logout', function (req, res, next) {
-//     req.session.isLoggedIn = false;
-//     res.redirect('/');
-// })
+router.get('/logout', function (req, res, next) {
+    req.session.isLoggedIn = false;
+    res.redirect('/');
+})
 //
 // router.get('/findall', function (req, res, next) {
 //     db.User.findAll({paranoid: false}).then(alldata => {
