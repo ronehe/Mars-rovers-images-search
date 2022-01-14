@@ -46,7 +46,7 @@
             </div>
 
             <div class="row">
-                    <div class="col-lg-6 col-12">
+                <div class="col-lg-6 col-12">
                     <div class="row">
                         <div class="col">
                             <div class="card p-3"><h5><b>Search for images</b></h5></div>
@@ -54,45 +54,46 @@
                     </div>
                     <form class="p-3 my-2 border rounded">
                         <fieldset>
-                        <div class="form-group">
-                            <label for="dateInput">Date(YYYY-MM-DD) or Sol</label>
-                            <input class="form-control" id="dateInput" name="date">
-                            <div></div>
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="missionSelect">Select a mission</label>
-                            <select class="form-select" id="missionSelect" name="mission">
-                                <option>Choose a mission</option>
-                                <option>Curiosity</option>
-                                <option>Opportunity</option>
-                                <option>Spirit</option>
-                            </select>
-                            <div></div>
-                        </div>
-                        <div class="form-group mt-2">
-                            <label for="cameraSelect">Select Camera</label>
-                            <select class="form-select" id="cameraSelect" name="camera">
-                                <option>Choose a camera</option>
-                                <option> FHAZ</option>
-                                <option> RHAZ</option>
-                                <option> MAST</option>
-                                <option> CHEMCAM</option>
-                                <option> MAHLI</option>
-                                <option> MARDI</option>
-                                <option> NAVCAM</option>
-                                <option> PANCAM</option>
-                                <option> MINITES</option>
-                            </select>
-                            <div></div>
-                        </div>
-                        <div class="mt-2">
-                            <button class="btn btn-outline-info" type="submit">Search</button>
-                            <button class="btn btn-outline-info pr-1" type="reset">Clear</button>
-                        </div>
-                        <div class="d-flex justify-content-center my-2 d-none">
-                            <div class="spinner-grow " role="status" style="width: 5rem; height: 5rem;">
+                            <div class="form-group">
+                                <label for="dateInput">Date(YYYY-MM-DD) or Sol</label>
+                                <input class="form-control" id="dateInput" name="date"
+                                       placeholder="enter valid earth/sol date" >
+                                <div></div>
                             </div>
-                        </div>
+                            <div class="form-group mt-2">
+                                <label for="missionSelect">Select a mission</label>
+                                <select class="form-select" id="missionSelect" name="mission">
+                                    <option disabled selected>Choose a mission</option>
+                                    <option>Curiosity</option>
+                                    <option>Opportunity</option>
+                                    <option>Spirit</option>
+                                </select>
+                                <div></div>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="cameraSelect">Select Camera</label>
+                                <select class="form-select" id="cameraSelect" name="camera">
+                                    <option disabled selected>Choose a camera</option>
+                                    <option> FHAZ</option>
+                                    <option> RHAZ</option>
+                                    <option> MAST</option>
+                                    <option> CHEMCAM</option>
+                                    <option> MAHLI</option>
+                                    <option> MARDI</option>
+                                    <option> NAVCAM</option>
+                                    <option> PANCAM</option>
+                                    <option> MINITES</option>
+                                </select>
+                                <div></div>
+                            </div>
+                            <div class="mt-2">
+                                <button class="btn btn-outline-info" type="submit">Search</button>
+                                <button class="btn btn-outline-info pr-1" type="reset">Clear</button>
+                            </div>
+                            <div class="d-flex justify-content-center my-2 d-none">
+                                <div class="spinner-grow " role="status" style="width: 5rem; height: 5rem;">
+                                </div>
+                            </div>
                         </fieldset>
 
                     </form>
@@ -115,24 +116,24 @@
                         <div class="col">
                             <ol id="slideLinks">
                                 <% allData.forEach(element => { %>
-                                <li>
-                                    <div class="row">
-                                        <div class="col-9" data-name=<%= element.img_id %>>
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-9" data-name=<%= element.img_id %>>
 
-                                            <a target="_blank" href=<%= element.url %>>Image
-                                                id: <%= element.img_id %> </a>
-                                            <p>Earth date: <%= element.earth_date %>, Sol: <%= element.sol %>,
-                                                Camera: <%= element.camera %>
-                                            </p>
+                                                <a target="_blank" href=<%= element.url %>>Image
+                                                    id: <%= element.img_id %> </a>
+                                                <p>Earth date: <%= element.earth_date %>, Sol: <%= element.sol %>,
+                                                    Camera: <%= element.camera %>
+                                                </p>
+                                            </div>
+                                            <div class="col-3">
+                                                <form>
+                                                    <input type="hidden" value=<%= element.img_id %> name="id"/>
+                                                    <button type="submit" class="btn btn-danger">delete</button>
+                                                </form>
+                                            </div>
                                         </div>
-                                        <div class="col-3">
-                                            <form>
-                                                <input type="hidden" value=<%= element.img_id %> name="id"/>
-                                                <button type="submit" class="btn btn-danger">delete</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </li>
+                                    </li>
 
                                 <% }) %>
 
@@ -147,34 +148,35 @@
                     <div class="carousel slide carousel-fade d-none" data-bs-ride="carousel"
                          id="carouselExampleFade">
                         <div class="carousel-inner">
-                            <%let first =true;
+                            <% let first = true;
                             allData.forEach(elem=>{ %>
 
-                            <div class="carousel-item <% if(first) {%> active<%first=false}%>" data-id=<%= elem.img_id%>>
-                                <img src=<%=elem.url%> alt=<%=elem.url%>
-                                     class="d-block rounded w-100 img-fluid mx-auto">
-                            <div class="carousel-caption">
-                                <a class="btn btn-primary" target="_blank" href=<%=elem.url%> >Full size</a>
-                                <h5><%=elem.camera%> }</h5>
-                                <h5><%=elem.earth_date%> </h5>
-                            </div>
-                            </div>
+                                <div class="carousel-item <% if(first) { %> active<% first=false} %>"
+                                     data-id=<%= elem.img_id %>>
+                                    <img src=<%= elem.url %> alt=<%= elem.url %>
+                                         class="d-block rounded w-100 img-fluid mx-auto">
+                                    <div class="carousel-caption">
+                                        <a class="btn btn-primary" target="_blank" href=<%= elem.url %>>Full size</a>
+                                        <h5><%= elem.camera %> }</h5>
+                                        <h5><%= elem.earth_date %> </h5>
+                                    </div>
+                                </div>
                             <% })
                             %>
                         </div>
 
                         <button class="carousel-control-prev" data-bs-slide="prev"
-                                    data-bs-target="#carouselExampleFade"
-                                    type="button">
-                                <span aria-hidden="true" class="carousel-control-prev-icon"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" data-bs-slide="next"
-                                    data-bs-target="#carouselExampleFade"
-                                    type="button">
-                                <span aria-hidden="true" class="carousel-control-next-icon"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
+                                data-bs-target="#carouselExampleFade"
+                                type="button">
+                            <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" data-bs-slide="next"
+                                data-bs-target="#carouselExampleFade"
+                                type="button">
+                            <span aria-hidden="true" class="carousel-control-next-icon"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
 
                     </div>
                     <div></div>
@@ -183,66 +185,66 @@
             </div>
 
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card p-3"><h5><b>Search results</b></h5></div>
-                            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card p-3"><h5><b>Search results</b></h5></div>
                         </div>
-                        <div class="row mb-5 justify-content-center" id="searchResult">
-                        </div>
+                    </div>
+                    <div class="row mb-5 justify-content-center" id="searchResult">
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
-    <!-- Modal -->
+<!-- Modal -->
 
-    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="whoarewe" role="dialog"
-         tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title" id="exampleModalLabel">Who are we</h5>
-                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li>Ronen Heifetz ronenhe@edu.hac.ac.il</li>
-                        <li>Leon Markovich leonmar@edu.hac.ac.il</li>
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="whoarewe" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title" id="exampleModalLabel">Who are we</h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>Ronen Heifetz ronenhe@edu.hac.ac.il</li>
+                    <li>Leon Markovich leonmar@edu.hac.ac.il</li>
 
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">OK</button>
-                </div>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">OK</button>
             </div>
         </div>
     </div>
-    <div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="savedImg" role="dialog"
-         tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title" id="modalLabel">Information</h5>
-                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>the image is already saved</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">OK</button>
-                </div>
+</div>
+<div aria-hidden="true" aria-labelledby="modalLabel" class="modal fade" id="savedImg" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title" id="modalLabel">Information</h5>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>the image is already saved</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">OK</button>
             </div>
         </div>
     </div>
-    <script crossorigin="anonymous"
-            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+<script crossorigin="anonymous"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
