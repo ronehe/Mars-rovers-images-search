@@ -47,7 +47,12 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('login', {
+    form: 'wrongDest',
+    error: '',
+    data: req.session.form
+
+  })
 });
 
 module.exports = app;
