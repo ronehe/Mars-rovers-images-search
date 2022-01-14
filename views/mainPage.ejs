@@ -46,13 +46,14 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-6 col-12">
+                    <div class="col-lg-6 col-12">
                     <div class="row">
                         <div class="col">
                             <div class="card p-3"><h5><b>Search for images</b></h5></div>
                         </div>
                     </div>
                     <form class="p-3 my-2 border rounded">
+                        <fieldset>
                         <div class="form-group">
                             <label for="dateInput">Date(YYYY-MM-DD) or Sol</label>
                             <input class="form-control" id="dateInput" name="date">
@@ -60,7 +61,7 @@
                         </div>
                         <div class="form-group mt-2">
                             <label for="missionSelect">Select a mission</label>
-                            <select class="form-control" id="missionSelect" name="mission">
+                            <select class="form-select" id="missionSelect" name="mission">
                                 <option>Choose a mission</option>
                                 <option>Curiosity</option>
                                 <option>Opportunity</option>
@@ -70,7 +71,7 @@
                         </div>
                         <div class="form-group mt-2">
                             <label for="cameraSelect">Select Camera</label>
-                            <select class="form-control" id="cameraSelect" name="camera">
+                            <select class="form-select" id="cameraSelect" name="camera">
                                 <option>Choose a camera</option>
                                 <option> FHAZ</option>
                                 <option> RHAZ</option>
@@ -92,6 +93,7 @@
                             <div class="spinner-grow " role="status" style="width: 5rem; height: 5rem;">
                             </div>
                         </div>
+                        </fieldset>
 
                     </form>
                 </div>

@@ -192,14 +192,13 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
                 }).catch((e) => {
                     //in case of error, remove everything from page from pic onwards
-                    let pic = document.querySelector(".container-fluid").firstElementChild.firstElementChild.firstElementChild
-                    while (pic.nextElementSibling) {
-                        pic.nextElementSibling.remove();
-                    }
+                    document.querySelector('fieldset').disabled=true;
+
                     //insert error message into screen
-                    document.querySelector("body").innerHTML +=
-                        `There seems to be a problem: 
-                    Cant find information on ${mission}. Please return at different time.<br> ${e}<br><br>`
+                    let textNode = document.createTextNode(`There seems to be a problem: 
+                    Cant find information on ${mission}. Please return at different time.<br> ${e}<br><br>`)
+                    document.getElementById('searchResult').appendChild(textNode)
+
                 });
             }
             return operationTime;
@@ -415,7 +414,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                         })
                         myModel.show()
 
-                  //     myModal.show();
+                        //     myModal.show();
                     } //if already present -show modal.
 
 
@@ -456,6 +455,3 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
 
 })();
-
-
-

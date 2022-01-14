@@ -55,20 +55,18 @@ router.post('/nasa', function (req, res, next) {
 });
 
 router.delete('/remove', function (req, res, next) {
+    console.log('aaaaaaa')
     db.Nasa.destroy({where: {[Op.and]: {img_id: req.query.id, mail: req.session.form.mail}}})
-        .then((instance) => {
-            console.log(instance)
-            res.send('<h1>Destroyed!</h1>')
-        }).catch(() => {
+        .then((instance)=>console.log(instance))
+        .catch(() => {
     })
 })
 
-router.get('/removeall', function (req, res, next) {
-    db.Nasa.destroy({truncate: true, resetIdentity: true})
-        .then(() => {
-            res.send('<h1>Destroyed!</h1>')
-        }).catch(() => {
-    })
+router.get('/remove', function (req, res, next) {
+    db.Nasa.destroy({where: {[Op.and]: {img_id: req.query.id, mail: req.session.form.mail}}})
+        .then((instance)=>console.log(instance))
+        .catch(() => {
+        })
 })
 
 
