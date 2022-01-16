@@ -10,7 +10,6 @@ router.get('/', function (req, res, next) {
     req.session.isLoggedIn ? db.Nasa.findAll({where: {mail: req.session.form.mail}}).then(allData => {
         res.render('mainPage', {data: req.session.form, allData: allData})
     }) : res.redirect('/')
-    //req.session.isLoggedIn ? res.render('mainPage', {data: req.session.form}) : res.redirect('/');
 })
 
 

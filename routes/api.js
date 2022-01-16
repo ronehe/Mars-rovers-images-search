@@ -4,7 +4,9 @@ var router = express.Router();
 const db = require('../models');
 const {param} = require("express/lib/router"); //contain the Contact model, which is accessible via db.Contact
 const {Op} = require('sequelize')
-
+/***
+ * making sure we arent getting any weird api request's (which arent from members)
+ */
 router.all('*', function(req, res, next){
     req.session.isLoggedIn ? next() : res.redirect('/../../login');
 })
@@ -32,42 +34,33 @@ router.get('/', function (req, res, next) {
 
 
 });
-
+/***
+ * request for adding picture for current user in data base (if exists will not be added)
+ */
 router.post('/nasa', function (req, res, next) {
-
-    console.log('before')
     const mail=req.session.form.mail;
      const {url, sol, earth_date,camera, img_id} = req.body
-
-    console.log("im mail :"+mail)
-
-
     db.Nasa.findOrCreate({where: {[Op.and]: {url: url, mail: mail}}, defaults: {url, sol, earth_date, mail, img_id, camera}})
         .then(([model, created]) => {
             created ? res.json({pictureExists:!created,status:'img is already in db' , id: model.id}) :
                 res.json({pictureExists:!created,status:'img successfully added'});
-            console.log(model, created);
+
         })
         .catch((err) => {
             console.log('***There was an error adding an image', JSON.stringify(err))
             return res.status(400).send(err)
         })
 });
-
+/***
+ *removing image from image data base for current user
+ */
 router.delete('/remove', function (req, res, next) {
-    console.log('aaaaaaa')
     db.Nasa.destroy({where: {[Op.and]: {img_id: req.query.id, mail: req.session.form.mail}}})
-        .then((instance)=>console.log(instance))
         .catch(() => {
     })
 })
 
-router.get('/remove', function (req, res, next) {
-    db.Nasa.destroy({where: {[Op.and]: {img_id: req.query.id, mail: req.session.form.mail}}})
-        .then((instance)=>console.log(instance))
-        .catch(() => {
-        })
-})
+
 
 
 

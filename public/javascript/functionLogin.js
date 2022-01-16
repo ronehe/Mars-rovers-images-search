@@ -1,3 +1,8 @@
+/***
+ * js page for login, created classes for validation and for different forms (validation module is similar to
+ *  Solange's example and changed to become modular.
+ */
+
 document.addEventListener('DOMContentLoaded', function () {
 
     let loginForm = document.getElementById('loginForm')
@@ -5,9 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let registerPasswordForm = document.getElementById('registerPasswordForm');
     let inputs = document.querySelectorAll('input');
     let elements = [];
-    /***
-     * checking form was sent to the login page to add specific validation ..
-     */
+
     if (loginForm) {
         elements = [
             {elem: inputs[0], elemFunc: validatorModule.isValidEmail},
@@ -15,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ]
 
         let loginValidator = new FormValidator(elements);
-        loginForm.addEventListener('submit', function(e){
+        loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
             loginValidator.resetErrors();
 
@@ -45,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.mailExists) {
                     inputs[2].nextElementSibling.innerHTML += 'The mail you provided is already associated with an account'
                 } else {
-                    if(clientValidation) registerMailForm.submit();
+                    if (clientValidation) registerMailForm.submit();
                 }
             })
         })
@@ -64,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }]
 
         let registerPasswordValidator = new FormValidator(elements);
-        registerPasswordForm.addEventListener('submit', function(e){
+        registerPasswordForm.addEventListener('submit', function (e) {
             e.preventDefault();
             registerPasswordValidator.resetErrors();
 
@@ -76,20 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// let myForm = new FormData(form);
-//let query = new URLSearchParams(myForm).toString();
-//let link = '/api?' + query
-// loginValidator.serverValidator(link, (data)=> {
-//     if(!data.isValid){
-//         loginValidator.errorLoc.classList.remove('d-none')
-//         loginValidator.errorLoc.innerHTML = data.status;
-//     }
-//     else{
-//         console.log(form.action)
-//         form.submit();
-//     }
-//
-// });
 const validatorModule = (() => {
 
 
@@ -155,7 +144,12 @@ const validatorModule = (() => {
     }
 })();
 
-
+/***
+ *
+ * @param elemObjects - array of objects name and validation function; to be passed to validation module and return
+ * boolean 'or' between all of the objects to check success validation..
+ * @constructor
+ */
 let FormValidator = function (elemObjects) {
     this.elemObjects = elemObjects;
     this.errorLoc = document.querySelector('form').nextElementSibling;

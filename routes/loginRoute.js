@@ -4,14 +4,15 @@ var router = express.Router();
 const db = require('../models');
 const {param} = require("express/lib/router"); //contain the Contact model, which is accessible via db.Contact
 const {Op} = require('sequelize')
-
+/***
+ * setting a form of login and errors inside the login ejs page
+ */
 router.get('/', function (req, res, next) {
     req.session.isLoggedIn ? res.redirect('/mainPage') : res.render('login', {
         form: 'loginForm',
         error: req.query.error
     });
 })
-
 router.post("/complete", function (req, res) {
     db.User.findOne({where: {mail: req.body.mail}})
         .then(instance => {
