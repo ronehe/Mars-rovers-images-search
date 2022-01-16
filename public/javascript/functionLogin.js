@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let registerPasswordForm = document.getElementById('registerPasswordForm');
     let inputs = document.querySelectorAll('input');
     let elements = [];
-
+    /***
+     * checking form was sent to the login page to add specific validation ..
+     */
     if (loginForm) {
         elements = [
             {elem: inputs[0], elemFunc: validatorModule.isValidEmail},
@@ -105,7 +107,7 @@ const validatorModule = (() => {
 
     let validatePasswordLength = (password) => {
         return {
-            isValid: (password.length > -1), //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+            isValid: (password.length > 7), //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
             message: 'Password must be at least 8 characters long'
         }
     }
