@@ -52,12 +52,16 @@ router.post('/nasa', function (req, res, next) {
  *removing image from image data base for current user
  */
 router.delete('/remove', function (req, res, next) {
-    db.Nasa.destroy({where: {[Op.and]: {img_id: req.query.id, mail: req.session.form.mail}}})
+    db.Nasa.destroy({where: {[Op.and]: {img_id: req.query.id, mail: req.session.form.mail}}}).then(removed=>{
+        res.json({removed:removed})
+    })
         .catch((err) => next(createError({message: err})))
 })
 
 router.delete('/removeall', function (req, res, next) {
-    db.Nasa.destroy({where:{mail:req.session.form.mail}})
+    db.Nasa.destroy({where:{mail:req.session.form.mail}}).then(removed=>{
+        res.json({removed:removed})
+    })
         .catch(err => next(createError({message: err})))
 
 })

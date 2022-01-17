@@ -150,6 +150,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
      * @param cameraElem - document.element
      * @returns {string} - link to be inserted into fetch()
      */
+
     let generateFetchLink = (dateElem, missionElem, cameraElem) => {
         return 'https://api.nasa.gov/mars-photos/api/v1/rovers/' +
             missionElem.value.toLowerCase() +
@@ -192,7 +193,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
                 }).catch((e) => {
                     //in case of error, remove everything from page from pic onwards
-                    document.querySelector('fieldset').disabled=true;
+                    document.querySelector('fieldset').disabled = true;
 
                     //insert error message into screen
                     let textNode = document.createTextNode(`There seems to be a problem: 
@@ -260,26 +261,18 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
          * removing all pictures from dom, carousel, data base
          * @type {HTMLElement}
          */
-        let removePic= document.getElementById("removePictures");
-        removePic.addEventListener("click",()=>{
+        let removePic = document.getElementById("removePictures");
+        removePic.addEventListener("click", () => {
+            document.querySelector(".spinner-grow").parentElement.classList.remove("d-none");
+            document.getElementById("slideLinks").innerHTML = ""
+            fetch("api/removeall", {
+                method: "DELETE"
+            }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.add("d-none"));
 
-            document.getElementById("slideLinks").innerHTML=""
-                fetch("api/removeall",{
-                    method:"DELETE"
-                })
-            })
-
-
-
-
-
-
-
-
+        })
 
 
     })
-
 
 
     const validateForm = (dateElem, missionElem, cameraElem) => {
@@ -310,6 +303,8 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
     }
 
     let searchResults = function (apiString) {
+
+
 
         fetch(apiString)
             .then((response) => {
@@ -377,7 +372,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
         newImg.querySelector('button').addEventListener("click", function () {
 
 
-            document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none")
+            document.querySelector(".spinner-grow").parentElement.classList.remove("d-none")
             fetch(`${theurl}`, {
                 method: 'POST',
                 headers: {
@@ -417,7 +412,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
 
                         let newCarouselItem = document.createElement("div") //add to carousel
-                        newCarouselItem.setAttribute("data-id",img.id)
+                        newCarouselItem.setAttribute("data-id", img.id)
                         //if first item, set it on active
                         slideLinks.childElementCount === 1 ?
                             newCarouselItem.classList.add("carousel-item", "active") :
@@ -435,7 +430,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                         document.querySelector(".carousel-inner").appendChild(newCarouselItem)
                         document.querySelector('.carousel').nextElementSibling.innerHTML = '' //set error to none
                     } else {
-                        let myModel=new bootstrap.Modal(document.getElementById('savedImg'), {
+                        let myModel = new bootstrap.Modal(document.getElementById('savedImg'), {
                             keyboard: false,
                         })
                         myModel.show()
@@ -447,7 +442,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
                 })
                 .catch((e) => {
                     console.log("error", e)
-                }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.toggle("d-none"));
+                }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.add("d-none"));
 
 
         })
@@ -459,19 +454,22 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
 
     let deleteImage = function (e) {
         e.preventDefault();
-        let data=new FormData(this)
+        let data = new FormData(this)
 
         let params = new URLSearchParams(data);
+        document.querySelector(".spinner-grow").parentElement.classList.remove("d-none");
+
         fetch('/api/remove?' + params, {
             method: 'DELETE',
-        });
-        let carouselItem = [...document.querySelectorAll(".carousel-item")].find(elem=>{
-            return data.get("id")===elem.getAttribute('data-id')
+        }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.add("d-none"));
+
+        let carouselItem = [...document.querySelectorAll(".carousel-item")].find(elem => {
+            return data.get("id") === elem.getAttribute('data-id')
         })
         carouselItem.remove(); //never null
-        if(carouselItem.classList.contains('active')){
+        if (carouselItem.classList.contains('active')) {
             let firstCarouselItem = document.querySelector('.carousel-item')
-            if(firstCarouselItem){
+            if (firstCarouselItem) {
                 firstCarouselItem.classList.add('active')
             }
         }
