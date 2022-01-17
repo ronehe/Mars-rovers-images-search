@@ -56,7 +56,11 @@ router.delete('/remove', function (req, res, next) {
         .catch((err) => next(createError({message: err})))
 })
 
+router.delete('/removeall', function (req, res, next) {
+    db.Nasa.destroy({where:{mail:req.session.form.mail}})
+        .catch(err => next(createError({message: err})))
 
+})
 
 
 

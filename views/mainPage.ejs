@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <label for="dateInput">Date(YYYY-MM-DD) or Sol</label>
                                 <input class="form-control" id="dateInput" name="date"
-                                       placeholder="enter valid earth/sol date" >
+                                       placeholder="enter valid earth/sol date">
                                 <div></div>
                             </div>
                             <div class="form-group mt-2">
@@ -112,6 +112,9 @@
                                 show
                             </button>
                             <button class="btn btn-outline-primary" type="button">Stop slide show</button>
+                            <button class="btn btn-outline-primary" id="removePictures" type="button">Remove all saved
+                                pictures
+                            </button>
                         </div>
                         <div class="col">
                             <ol id="slideLinks">
@@ -151,7 +154,7 @@
                             <% let first = true;
                             allData.forEach(elem=>{ %>
 
-                                <div class="carousel-item <% if(first) { %> active<% first=false} %>"
+                                <div class="carousel-item <% if(first) { %> active<% first = false} %>"
                                      data-id=<%= elem.img_id %>>
                                     <img src=<%= elem.url %> alt=<%= elem.url %>
                                          class="d-block rounded w-100 img-fluid mx-auto">

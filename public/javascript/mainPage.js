@@ -254,7 +254,33 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
             carousel.classList.add("d-none")
             carousel.nextElementSibling.innerHTML = ''
         })
+
+
+        /***
+         * removing all pictures from dom, carousel, data base
+         * @type {HTMLElement}
+         */
+        let removePic= document.getElementById("removePictures");
+        removePic.addEventListener("click",()=>{
+
+            document.getElementById("slideLinks").innerHTML=""
+                fetch("api/removeall",{
+                    method:"DELETE"
+                })
+            })
+
+
+
+
+
+
+
+
+
+
     })
+
+
 
     const validateForm = (dateElem, missionElem, cameraElem) => {
 
