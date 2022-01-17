@@ -13,7 +13,24 @@ Open console, execute : node bin/www
 <p>
 Then open your browser at http://localhost:<b>3000</b>
 </p>
-<h1>Assumptions</h1>
+<h1>About :</h1>
+<p> Hello and welcome to nasa api image display site where you <b>and your friends</b> 
+may save and display your favorite mars rover pictures..
+</p>
 <p>
-  
+Images are found by searching image by earth/sol date, mission, camera if located
+in nasa's db the picture then saved in personal space for each user <b>(until he deletes 
+it ! ~ will be saved for  next session ~)</b>
+</p>
+<p>
+Saved images then can be viewed in carousel format or in full size.
+The users are saved in data base and images saved in different one ~ found using
+session email address for when user is logged in ! ~
+</p>
+<h1> Nice features : </h1>
+<p>When the url is typed incorrectly all site visitors are sent to back to safety 
+page which navigates them either to "login" or to "main page" if they have logged in already
+
+When url is typed correctly but isn't permitted for current visitor ( for example 
+trying accessing  "main page" but not logged in ) - he then navigated to "login". 
 </p>
