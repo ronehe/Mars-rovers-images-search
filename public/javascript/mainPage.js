@@ -265,6 +265,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
         removePic.addEventListener("click", () => {
             document.querySelector(".spinner-grow").parentElement.classList.remove("d-none");
             document.getElementById("slideLinks").innerHTML = ""
+            document.querySelectorAll(".carousel-item").forEach(item=>item.remove())
             fetch("api/removeall", {
                 method: "DELETE"
             }).finally(() => document.querySelector(".spinner-grow").parentElement.classList.add("d-none"));
