@@ -1,3 +1,4 @@
+var createError = require('http-errors');
 var express = require('express');
 const Cookies = require('cookies')
 var router = express.Router();
@@ -5,10 +6,11 @@ const db = require('../models');
 const {param} = require("express/lib/router"); //contain the Contact model, which is accessible via db.Contact
 const {Op} = require('sequelize')
 
+//register main router
 router.get('/', function (req, res, next) {
     req.session.isLoggedIn ?
         res.redirect('/mainPage') :
-        res.render('login', {
+        res.render('template', {
                 form: 'registerMailForm',
                 error: req.query.error
             }
@@ -28,7 +30,7 @@ router.post('/', function (req, res, next) {
     cookies.set('cookieExists', new Date().toISOString(), {signed: true, maxAge: 60 * 1000});
 
 
-    res.render('login', {
+    res.render('template', {
         form: 'registerPasswordForm',
         error: '',
         data: req.session.form
@@ -50,7 +52,7 @@ router.post('/complete', function (req, res, next) {
         db.User.findOrCreate({where: {mail: mail}, defaults: {firstName, lastName, mail, password}})
             .then(([model, created]) => {
                 req.session.isLoggedIn = created;
-                created ?     res.render('login', {
+                created ? res.render('template', {
                         form: 'registrationCompleteForm',
                         error: '',
                         data: req.session.form
@@ -58,13 +60,9 @@ router.post('/complete', function (req, res, next) {
                     : res.redirect('/register');
             })
             .catch((err) => {
-                console.log('***There was an error creating a contact', JSON.stringify(err))
-                return res.status(400).send(err)
+                next(createError({message: err}))
             })
-    } else res.redirect('/register?error=sessiontimeout')
+    } else res.redirect('/register?error=sessiontimeout') //if cookie doesnt exist, redirect to register and display error
 })
-
-
-
 
 module.exports = router;

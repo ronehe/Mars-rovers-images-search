@@ -442,7 +442,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
         let carouselItem = [...document.querySelectorAll(".carousel-item")].find(elem=>{
             return data.get("id")===elem.getAttribute('data-id')
         })
-        carouselItem.remove();
+        carouselItem.remove(); //never null
         if(carouselItem.classList.contains('active')){
             let firstCarouselItem = document.querySelector('.carousel-item')
             if(firstCarouselItem){
@@ -450,7 +450,7 @@ const APIKEY = "wtjo50MKkpobooDKpPVwgUX9lDnhdSx2ovmAbACs";
             }
         }
 
-        this.parentElement.parentElement.parentElement.remove();
+        this.parentElement.parentElement.parentElement.remove(); //remove the row in saved images
     }
 
 

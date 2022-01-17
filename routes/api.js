@@ -4,33 +4,30 @@ var router = express.Router();
 const db = require('../models');
 const {param} = require("express/lib/router"); //contain the Contact model, which is accessible via db.Contact
 const {Op} = require('sequelize')
+const createError = require("http-errors");
 /***
  * making sure we arent getting any weird api request's (which arent from members)
  */
 router.all('*', function(req, res, next){
     req.session.isLoggedIn ? next() : res.redirect('/../../login');
 })
-/* GET home page. */
-router.get('/resources/:id', function (req, res, next) {
-    db.User.findOne({where: {mail: req.params.id}}).then(instance => {
-        res.json({mailExists: Boolean(instance)})
-    }).catch(err => console.log(err))
-});
 
+//router to handle login, checks if mail exists and if password matches
 router.get('/', function (req, res, next) {
 
     db.User.findOne({where: {mail: req.query.mail}})
         .then(instance => {
-            if (req.query.password === instance.password) {
-                req.session.isLoggedIn = true;
-                let {firstName, lastName, mail} = instance;
-                req.session.form = {firstName, lastName, mail};
-                res.json({isValid: true, status: 'successfully logged in'})
-            } else res.json({isValid: false, status: 'password is wrong'})
+            if(!instance) {res.json({isValid: false, status: 'user with associated mail was not found'})}
+            else {
+                if (req.query.password === instance.password) {
+                    req.session.isLoggedIn = true;
+                    let {firstName, lastName, mail} = instance;
+                    req.session.form = {firstName, lastName, mail};
+                    res.json({isValid: true, status: 'successfully logged in'})
+                } else res.json({isValid: false, status: 'password is wrong'})
+            }
         })
-        .catch(() => {
-            res.json({isValid: false, status: 'user with associated mail was not found'})
-        })
+        .catch(err => createError({message: err}))
 
 
 });
@@ -56,8 +53,7 @@ router.post('/nasa', function (req, res, next) {
  */
 router.delete('/remove', function (req, res, next) {
     db.Nasa.destroy({where: {[Op.and]: {img_id: req.query.id, mail: req.session.form.mail}}})
-        .catch(() => {
-    })
+        .catch((err) => next(createError({message: err})))
 })
 
 

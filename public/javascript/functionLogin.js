@@ -120,6 +120,7 @@ const validatorModule = (() => {
     const validateForm = (elementObjects) => {
         let v = true
         elementObjects.forEach((elementObject) => {
+            elementObject.elem.value = elementObject.elem.value.trim(); //trim elements
             v = validateInput(elementObject.elem, elementObject.elemFunc) && v
         })
         return v
