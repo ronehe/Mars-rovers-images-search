@@ -1,5 +1,5 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=6573225&assignment_repo_type=AssignmentRepo)
-# ex4-nodejs
+# Mars Image Browser
 ![Login](pics/login.png)
 ![Main Page](pics/main.png)
 <h1>Ronen Heifetz && Leon Markovich</h1>
@@ -11,6 +11,7 @@
 <p>
 Open console, execute : node bin/www
 </p>
+Made using Node.JS, Express, Sequelize
 <p>
 Then open your browser at http://localhost:<b>3000</b>
 </p>
